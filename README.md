@@ -2,6 +2,8 @@
 
 An API abstraction to help with using Vend's API from PHP.
 
+![https://travis-ci.org/ShoppinPal/vend-php-api](https://api.travis-ci.org/ShoppinPal/vend-php-api.svg?branch=master)
+
 How to Install
 ==============
 ```
