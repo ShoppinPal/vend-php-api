@@ -2,7 +2,7 @@
   "name": "shoppinpal/vend-api",
   "description": "Library to use Vend's API",
   "minimum-stability": "stable",
-  "license": "GPL v2",
+  "license": "GPL-2.0",
   "require": {
     "php":               ">=5.6",
     "ext-curl":          "*",
