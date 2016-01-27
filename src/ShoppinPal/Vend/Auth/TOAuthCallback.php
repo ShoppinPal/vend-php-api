@@ -12,21 +12,16 @@ trait TOAuthCallback
 {
 
     /**
-     * @var HttpRequest
-     */
-    protected $request;
-
-    /**
      * Processes the callback to the oauth authorisation code request.
      *
      * @return string
      */
     protected function doOAuthAuthorisationCallback()
     {
-        $code         = (string)$this->request->getGet('code');
-        $domainPrefix = (string)$this->request->getGet('domain_prefix');
-        $state        = (string)$this->request->getGet('state');
-        $error        = (string)$this->request->getGet('error');
+        $code =         (string)$this->getRequest()->getGet('code');
+        $domainPrefix = (string)$this->getRequest()->getGet('domain_prefix');
+        $state =        (string)$this->getRequest()->getGet('state');
+        $error =        (string)$this->getRequest()->getGet('error');
 
         if ($error) {
             $this->processOAuthAuthorisationCallbackError($error);
@@ -48,6 +43,12 @@ trait TOAuthCallback
         return DiHelper::getInstance()->getFactory()->getOAuth();
     }
 
+    /**
+     * Returns the current request instance.
+     *
+     * @return HttpRequest
+     */
+    abstract protected function getRequest();
 
     /**
      * Processes the error message callback received for an OAuth Authorisation call.
@@ -67,5 +68,9 @@ trait TOAuthCallback
      *
      * @return mixed
      */
-    abstract protected function processOAuthAuthorisationCallbackSuccess(OAuthResponseDo $responseDo, $domainPrefix, $state);
+    abstract protected function processOAuthAuthorisationCallbackSuccess(
+        OAuthResponseDo $responseDo,
+        $domainPrefix,
+        $state
+    );
 }

@@ -17,9 +17,11 @@ class TOAuthCallbackMock
      */
     public $successCallback;
 
-    public function setRequest($request)
+    public $request;
+
+    public function getRequest()
     {
-        $this->request = $request;
+        return $this->request;
     }
 
     public function runTest()

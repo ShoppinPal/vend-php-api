@@ -33,7 +33,7 @@ class TOAuthCallbackTest extends BaseTest
             ->setMethods(['getGet'])
             ->getMock();
 
-        $this->trait->setRequest($this->request);
+        $this->trait->request = $this->request;
     }
 
     public function testError()
