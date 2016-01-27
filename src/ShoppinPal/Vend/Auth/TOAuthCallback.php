@@ -4,6 +4,7 @@ namespace ShoppinPal\Vend\Auth;
 
 use ShoppinPal\Vend\DiHelper;
 use YapepBase\Request\HttpRequest;
+use YapepBase\View\ViewAbstract;
 
 /**
  * Trait to be used by controllers to handle OAuth callbacks
@@ -14,7 +15,7 @@ trait TOAuthCallback
     /**
      * Processes the callback to the oauth authorisation code request.
      *
-     * @return string
+     * @return string|ViewAbstract
      */
     protected function doOAuthAuthorisationCallback()
     {
@@ -24,13 +25,11 @@ trait TOAuthCallback
         $error =        (string)$this->getRequest()->getGet('error');
 
         if ($error) {
-            $this->processOAuthAuthorisationCallbackError($error);
+            return $this->processOAuthAuthorisationCallbackError($error);
         } else {
             $responseDo = $this->getOAuth()->requestAccessToken($domainPrefix, $code);
-            $this->processOAuthAuthorisationCallbackSuccess($responseDo, $domainPrefix, $state);
+            return $this->processOAuthAuthorisationCallbackSuccess($responseDo, $domainPrefix, $state);
         }
-
-        return 'OK';
     }
 
     /**
@@ -55,7 +54,7 @@ trait TOAuthCallback
      *
      * @param string $errorMessage
      *
-     * @return void
+     * @return string|ViewAbstract
      */
     abstract protected function processOAuthAuthorisationCallbackError($errorMessage);
 
@@ -66,7 +65,7 @@ trait TOAuthCallback
      * @param                 $domainPrefix
      * @param                 $state
      *
-     * @return mixed
+     * @return string|ViewAbstract
      */
     abstract protected function processOAuthAuthorisationCallbackSuccess(
         OAuthResponseDo $responseDo,

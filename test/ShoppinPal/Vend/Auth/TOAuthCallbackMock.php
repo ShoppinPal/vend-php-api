@@ -26,17 +26,17 @@ class TOAuthCallbackMock
 
     public function runTest()
     {
-        $this->doOAuthAuthorisationCallback();
+        return $this->doOAuthAuthorisationCallback();
     }
 
     protected function processOAuthAuthorisationCallbackError($errorMessage)
     {
-        call_user_func($this->errorCallback, $errorMessage);
+        return call_user_func($this->errorCallback, $errorMessage);
     }
 
     protected function processOAuthAuthorisationCallbackSuccess(OAuthResponseDo $responseDo, $domainPrefix, $state)
     {
-        call_user_func($this->successCallback, $responseDo, $domainPrefix, $state);
+        return call_user_func($this->successCallback, $responseDo, $domainPrefix, $state);
 
     }
 

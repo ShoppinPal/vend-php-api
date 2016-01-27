@@ -49,13 +49,17 @@ class TOAuthCallbackTest extends BaseTest
 
         $this->trait->errorCallback = function($errorMessage) {
             $this->assertEquals('test', $errorMessage);
+
+            return 'ERROR';
         };
 
         $this->trait->successCallback = function() {
             throw new \PHPUnit_Framework_AssertionFailedError('The success callback should not be called');
         };
 
-        $this->trait->runTest();
+        $result = $this->trait->runTest();
+
+        $this->assertEquals('ERROR', $result, 'Invalid return value');
     }
 
     public function testSuccess()
@@ -90,6 +94,8 @@ class TOAuthCallbackTest extends BaseTest
             $this->assertEquals($expectedDomainPrefix, $domainPrefix, 'Invalid domain prefix in success callback');
             $this->assertEquals($expectedState, $state, 'Invalid state in success callback');
             $this->assertSame($expectedResponseDo, $responseDo, 'Invalid response DO');
+
+            return 'OK';
         };
 
         $factory = $this->getFactoryMock();
@@ -99,7 +105,9 @@ class TOAuthCallbackTest extends BaseTest
             ->method('getOauth')
             ->willReturn($this->getOauthMock($expectedDomainPrefix, $expectedCode, $expectedResponseDo));
 
-        $this->trait->runTest();
+        $result = $this->trait->runTest();
+
+        $this->assertEquals('OK', $result, 'Invalid return value');
     }
 
     protected function getOauthMock($domainPrefix, $code, OAuthResponseDo $responseDo)
