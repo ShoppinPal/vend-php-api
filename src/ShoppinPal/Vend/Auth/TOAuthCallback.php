@@ -24,7 +24,7 @@ trait TOAuthCallback
         $state =        (string)$this->getRequest()->getGet('state');
         $error =        (string)$this->getRequest()->getGet('error');
 
-        if ($error) {
+        if ($error || !$code || !$domainPrefix) {
             return $this->processOAuthAuthorisationCallbackError($error);
         } else {
             $responseDo = $this->getOAuth()->requestAccessToken($domainPrefix, $code);

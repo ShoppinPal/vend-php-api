@@ -62,6 +62,58 @@ class TOAuthCallbackTest extends BaseTest
         $this->assertEquals('ERROR', $result, 'Invalid return value');
     }
 
+    public function testMissingCode()
+    {
+        $this->request
+            ->method('getGet')
+            ->willReturnMap([
+                ['code', null, ''],
+                ['domain_prefix', null, ''],
+                ['state', null, ''],
+                ['error', null, '']
+            ]);
+
+        $this->trait->errorCallback = function($errorMessage) {
+            $this->assertEquals('', $errorMessage);
+
+            return 'ERROR';
+        };
+
+        $this->trait->successCallback = function() {
+            throw new \PHPUnit_Framework_AssertionFailedError('The success callback should not be called');
+        };
+
+        $result = $this->trait->runTest();
+
+        $this->assertEquals('ERROR', $result, 'Invalid return value');
+    }
+
+    public function testMissingDomainPrefix()
+    {
+        $this->request
+            ->method('getGet')
+            ->willReturnMap([
+                ['code', null, ''],
+                ['domain_prefix', null, ''],
+                ['state', null, ''],
+                ['error', null, '']
+            ]);
+
+        $this->trait->errorCallback = function($errorMessage) {
+            $this->assertEquals('', $errorMessage);
+
+            return 'ERROR';
+        };
+
+        $this->trait->successCallback = function() {
+            throw new \PHPUnit_Framework_AssertionFailedError('The success callback should not be called');
+        };
+
+        $result = $this->trait->runTest();
+
+        $this->assertEquals('ERROR', $result, 'Invalid return value');
+    }
+
     public function testSuccess()
     {
         $expectedCode         = 'testCode';
