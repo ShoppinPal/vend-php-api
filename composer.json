@@ -3,6 +3,11 @@
   "description": "Library to use Vend's API",
   "minimum-stability": "stable",
   "license": "GPL-2.0",
+  "autoload": {
+    "psr-0": {
+      "ShoppinPal": "src/"
+    }
+  },
   "require": {
     "php":               ">=5.6",
     "ext-curl":          "*",
