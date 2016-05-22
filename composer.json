@@ -4,8 +4,8 @@
   "minimum-stability": "stable",
   "license": "GPL-2.0",
   "autoload": {
-    "psr-0": {
-      "ShoppinPal": "src/"
+    "psr-4": {
+      "ShoppinPal\\Vend\\": "src/ShoppinPal/Vend"
     }
   },
   "require": {
