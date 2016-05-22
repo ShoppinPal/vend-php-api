@@ -66,6 +66,8 @@ class RegisterSale extends EntityDoAbstract
 
     public $invoiceSequence;
 
+    public $returnFor;
+
     /** @var RegisterSaleProduct[] */
     public $registerSaleProducts = [];
 

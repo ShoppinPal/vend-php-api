@@ -4,6 +4,10 @@ namespace ShoppinPal\Vend;
 
 use ShoppinPal\Vend\Api\V0\Customers as CustomersV0;
 use ShoppinPal\Vend\Api\V0\Products as ProductsV0;
+use ShoppinPal\Vend\Api\V0\PaymentTypes as PaymentTypesV0;
+use ShoppinPal\Vend\Api\V0\Registers as RegistersV0;
+use ShoppinPal\Vend\Api\V0\RegisterSales as RegisterSalesV0;
+use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
 use YapepBase\Config;
@@ -18,8 +22,6 @@ use YapepBase\Exception\ParameterException;
  *   <li><b>resource.vend.oauth.clientId</b>: The client ID for the application (from the Vend developer center).</li>
  *   <li><b>resource.vend.oauth.clientSecret</b>: The client secret for the application.</li>
  *   <li><b>resource.vend.oauth.redirectUri</b>: The redirect URI for the application. Must match the setting in the Vend developer center.</li>
- *   <li><b>resource.vend.oauth.personalToken</b>: The personal token, if personal token based authentication is used.</li>
- *   <li><b>vend.domainPrefix</b>: The domain prefix for the vend store</li>
  * </ul>
  */
 class Factory
@@ -65,13 +67,18 @@ class Factory
      */
     public function getAuthHelper()
     {
-        $personalToken = $this->config->get('resource.vend.oauth.personalToken', false);
+        $diHelper = DiHelper::getInstance();
+        return new AuthHelper($diHelper->getOAuthTokenType(), $diHelper->getOAuthAccessToken());
+    }
 
-        if (false !== $personalToken) {
-            return new AuthHelper('Bearer', $personalToken);
-        }
-
-        // TODO implement for OAuth
+    /**
+     * Returns the current domain prefix
+     *
+     * @return string
+     */
+    protected function getDomainPrefix()
+    {
+        return DiHelper::getInstance()->getDomainPrefix();
     }
 
     /**
@@ -86,12 +93,31 @@ class Factory
      */
     public function getCustomersApi($version)
     {
-        $domainPrefix = $this->config->get('vend.domainPrefix');
-
         switch ($version) {
             case 'V0':
-                return new CustomersV0($this->getAuthHelper(), $domainPrefix);
+                return new CustomersV0($this->getAuthHelper(), $this->getDomainPrefix());
             
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns a Payment Types API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return PaymentTypesV0
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getPaymentTypesApi($version)
+    {
+        switch ($version) {
+            case 'V0':
+                return new PaymentTypesV0($this->getAuthHelper(), $this->getDomainPrefix());
+
             default:
                 throw new ParameterException('Unknown version: ' . $version);
         }
@@ -109,11 +135,72 @@ class Factory
      */
     public function getProductsApi($version)
     {
-        $domainPrefix = $this->config->get('vend.domainPrefix');
-
         switch ($version) {
             case 'V0':
-                return new ProductsV0($this->getAuthHelper(), $domainPrefix);
+                return new ProductsV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns a Registers API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return RegistersV0
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getRegistersApi($version)
+    {
+        switch ($version) {
+            case 'V0':
+                return new RegistersV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns a Register Sales API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return RegisterSalesV0
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getRegisterSalesApi($version)
+    {
+        switch ($version) {
+            case 'V0':
+                return new RegisterSalesV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns a Webhooks API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return WebhooksV0
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getWebhooksApi($version)
+    {
+        switch ($version) {
+            case 'V0':
+                return new WebhooksV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
                 throw new ParameterException('Unknown version: ' . $version);

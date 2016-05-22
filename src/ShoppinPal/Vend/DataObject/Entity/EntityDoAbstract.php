@@ -101,7 +101,7 @@ class EntityDoAbstract {
      *
      * @return array
      */
-    public function toUnderscoredArray(array $ignoredProperties = [])
+    public function toUnderscoredArray(array $ignoredProperties = [], $removeNulls = false)
     {
         $ignoredProperties = array_merge(
             $ignoredProperties,
@@ -115,6 +115,10 @@ class EntityDoAbstract {
                 continue;
             }
 
+            if ($removeNulls && $value === null) {
+                continue;
+            }
+
             $index = StringHelper::camelToUnderScode($propertyName);
 
             if (array_key_exists($propertyName, $this->subEntities)) {
@@ -125,12 +129,12 @@ class EntityDoAbstract {
 
                     /** @var EntityDoAbstract $subEntity */
                     foreach ($value as $subEntity) {
-                        $result[$index][] = $subEntity->toUnderscoredArray();
+                        $result[$index][] = $subEntity->toUnderscoredArray([], $removeNulls);
                     }
 
                 } else {
                     /** @var EntityDoAbstract $value */
-                    $result[$index] = $value->toUnderscoredArray();
+                    $result[$index] = $value->toUnderscoredArray([], $removeNulls);
                 }
             } else {
                 $result[$index] = $value;

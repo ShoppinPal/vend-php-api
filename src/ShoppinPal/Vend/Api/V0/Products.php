@@ -130,7 +130,7 @@ class Products extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/products');
         $request->setMethod(CurlHttpRequest::METHOD_POST);
 
-        $request->setPayload(json_encode($modifiedProduct->toUnderscoredArray()), CurlHttpRequest::PAYLOAD_TYPE_RAW);
+        $request->setPayload(json_encode($modifiedProduct->toUnderscoredArray([], true)), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
         $result = $this->sendRequest($request);
 
@@ -155,7 +155,7 @@ class Products extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/products');
         $request->setMethod(CurlHttpRequest::METHOD_POST);
 
-        $request->setPayload(json_encode($modifiedProduct->toUnderscoredArray()), CurlHttpRequest::PAYLOAD_TYPE_RAW);
+        $request->setPayload(json_encode($modifiedProduct->toUnderscoredArray([], true)), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
         $result = $this->sendRequest($request);
 

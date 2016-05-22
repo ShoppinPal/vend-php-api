@@ -15,6 +15,14 @@ class DiHelper
     /** The key for the DI helper */
     const KEY_DI_HELPER = 'vend_diHelper';
 
+    const KEY_DOMAIN_PREFIX = 'vend_domainPrefix';
+
+    /** The key for the OAuth token */
+    const KEY_OAUTH_ACCESS_TOKEN = 'vend_oauthAccessToken';
+
+    /** The token type for OAuth */
+    const KEY_OAUTH_TOKEN_TYPE = 'vend_oauthTokenType';
+
     /**
      * Whether the initialisation was completed.
      *
@@ -70,6 +78,30 @@ class DiHelper
     public function getFactory()
     {
         return $this->getContainer()[self::KEY_FACTORY];
+    }
+
+    public function getDomainPrefix()
+    {
+        return $this->getContainer()[self::KEY_DOMAIN_PREFIX];
+    }
+
+    public function getOAuthAccessToken()
+    {
+        return $this->getContainer()[self::KEY_OAUTH_ACCESS_TOKEN];
+    }
+
+    public function getOAuthTokenType()
+    {
+        return $this->getContainer()[self::KEY_OAUTH_TOKEN_TYPE];
+    }
+
+    public function setAuthenticationData($domainPrefix, $accessToken, $tokenType = 'Bearer')
+    {
+        $container = $this->getContainer();
+
+        $container[self::KEY_DOMAIN_PREFIX]      = $domainPrefix;
+        $container[self::KEY_OAUTH_ACCESS_TOKEN] = $accessToken;
+        $container[self::KEY_OAUTH_TOKEN_TYPE]   = $tokenType;
     }
 
     /**

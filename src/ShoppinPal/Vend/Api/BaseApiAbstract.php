@@ -44,12 +44,13 @@ class BaseApiAbstract
     /**
      * Returns an authenticated CURL request to the Vend store with the specified path with the passed GET params.
      *
-     * @param string $path   The URI for the request.
-     * @param array  $params The GET params for the request as an associative array.
+     * @param string $path            The URI for the request.
+     * @param array  $params          The GET params for the request as an associative array.
+     * @param bool   $skipContentType If TRUE, the Content-Type header will not be set.
      *
      * @return CurlHttpRequest
      */
-    protected function getAuthenticatedRequestForUri($path, array $params = [])
+    protected function getAuthenticatedRequestForUri($path, array $params = [], $skipContentType = false)
     {
         $url =  sprintf(
             'https://%s.vendhq.com/%s%s',
@@ -60,7 +61,9 @@ class BaseApiAbstract
         
         $request = Application::getInstance()->getDiContainer()->getCurlHttpRequest();
         $request->setUrl($url);
-        $request->addHeader('Content-Type: application/json');
+        if (!$skipContentType) {
+            $request->addHeader('Content-Type: application/json');
+        }
         $this->authHelper->addAuthorisationHeaderToRequest($request);
 
         return $request;

@@ -6,6 +6,14 @@ use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
 
 class RegisterSaleProduct extends EntityDoAbstract
 {
+    protected $subEntities = [
+        'attributes' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => RegisterSaleProductAttribute::class,
+        ],
+    ];
+
+
     public $id;
     
     public $productId;
@@ -27,4 +35,6 @@ class RegisterSaleProduct extends EntityDoAbstract
     public $priceTotal;
 
     public $displayRetailPriceTaxInclusive;
+
+    public $attributes = [];
 }
