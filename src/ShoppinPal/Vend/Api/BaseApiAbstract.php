@@ -61,6 +61,7 @@ class BaseApiAbstract
         
         $request = Application::getInstance()->getDiContainer()->getCurlHttpRequest();
         $request->setUrl($url);
+        $request->addHeader('User-Agent: Shoppinpal Vend PHP API v0.1.0');
         if (!$skipContentType) {
             $request->addHeader('Content-Type: application/json');
         }
