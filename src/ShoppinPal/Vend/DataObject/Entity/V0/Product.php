@@ -53,6 +53,12 @@ class Product extends EntityDoAbstract{
 
     public $tax;
 
+    public $taxId;
+
+    public $taxRate;
+
+    public $taxName;
+
     public $brandName;
 
     public $supplierName;
