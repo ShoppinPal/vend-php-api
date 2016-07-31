@@ -3,6 +3,7 @@
 namespace ShoppinPal\Vend;
 
 use ShoppinPal\Vend\Api\V0\Customers as CustomersV0;
+use ShoppinPal\Vend\Api\V0\Outlets as OutletsV0;
 use ShoppinPal\Vend\Api\V0\Products as ProductsV0;
 use ShoppinPal\Vend\Api\V0\PaymentTypes as PaymentTypesV0;
 use ShoppinPal\Vend\Api\V0\Registers as RegistersV0;
@@ -97,6 +98,27 @@ class Factory
             case 'V0':
                 return new CustomersV0($this->getAuthHelper(), $this->getDomainPrefix());
             
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns an Outlets API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return OutletsV0
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getOutletsApi($version)
+    {
+        switch ($version) {
+            case 'V0':
+                return new OutletsV0($this->getAuthHelper(), $this->getDomainPrefix());
+
             default:
                 throw new ParameterException('Unknown version: ' . $version);
         }
