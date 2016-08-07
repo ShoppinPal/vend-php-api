@@ -2,15 +2,22 @@
 
 namespace ShoppinPal\Vend\DataObject\Entity\V0;
 
-use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
-
-class Tax extends EntityDoAbstract
+class Tax extends TaxSubEntity
 {
-    public $id;
 
-    public $tax;
+    protected $subEntities = [
+        'rates' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => TaxRate::class,
+        ],
+    ];
 
-    public $name;
+    /** @var TaxRate[] */
+    protected $rates = [];
 
-    public $rate;
+    /** @var bool */
+    protected $default;
+
+    /** @var bool */
+    protected $active;
 }

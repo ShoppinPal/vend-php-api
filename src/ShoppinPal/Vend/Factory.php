@@ -7,6 +7,7 @@ use ShoppinPal\Vend\Api\V0\Products as ProductsV0;
 use ShoppinPal\Vend\Api\V0\PaymentTypes as PaymentTypesV0;
 use ShoppinPal\Vend\Api\V0\Registers as RegistersV0;
 use ShoppinPal\Vend\Api\V0\RegisterSales as RegisterSalesV0;
+use ShoppinPal\Vend\Api\V0\Taxes as TaxesV0;
 use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
@@ -180,6 +181,27 @@ class Factory
         switch ($version) {
             case 'V0':
                 return new RegisterSalesV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns a Taxes API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return TaxesV0
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getTaxesApi($version)
+    {
+        switch ($version) {
+            case 'V0':
+                return new TaxesV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
                 throw new ParameterException('Unknown version: ' . $version);

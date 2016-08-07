@@ -30,7 +30,7 @@ class RegisterSale extends EntityDoAbstract
         ],
         'taxes' => [
             self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
-            self::SUB_ENTITY_KEY_CLASS => Tax::class,
+            self::SUB_ENTITY_KEY_CLASS => TaxSubEntity::class,
         ],
     ];
 
@@ -77,6 +77,6 @@ class RegisterSale extends EntityDoAbstract
     /** @var RegisterSalePayment[] */
     public $registerSalePayments = [];
 
-    /** @var Tax[] */
+    /** @var TaxSubEntity[] */
     public $taxes = [];
 }
