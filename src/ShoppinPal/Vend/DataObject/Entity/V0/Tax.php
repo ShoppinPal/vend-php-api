@@ -13,11 +13,11 @@ class Tax extends TaxSubEntity
     ];
 
     /** @var TaxRate[] */
-    protected $rates = [];
+    public $rates = [];
 
     /** @var bool */
-    protected $default;
+    public $default;
 
     /** @var bool */
-    protected $active;
+    public $active;
 }
