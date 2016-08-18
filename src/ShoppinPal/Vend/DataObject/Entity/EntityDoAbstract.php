@@ -85,7 +85,7 @@ class EntityDoAbstract {
                     }
                     $this->$propertyName = $tmpValue;
                 } else {
-                    $this->$propertyName = new $className($value, $unknownPropertyHandling);
+                    $this->$propertyName = null === $value ? null : new $className($value, $unknownPropertyHandling);
                 }
             } else {
                 $this->$propertyName = $value;
