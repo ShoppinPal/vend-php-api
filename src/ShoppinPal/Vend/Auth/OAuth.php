@@ -180,7 +180,18 @@ class OAuth
         $result = $request->send();
 
         if (!$result->isRequestSuccessful()) {
-            throw new Exception('Error while sending the access token request.', 0, null, $result);
+            if ($result->getError()) {
+                $additionalInfo = 'Curl error: ' . $result->getError();
+            } else {
+                $statusCode = $result->getResponseCode();
+                preg_match(
+                    '#^HTTP/[0-9\.]+ ' . (int)$statusCode . '[^\n]+#ms',
+                    $result->getResponseHeaders(),
+                    $matches
+                );
+                $additionalInfo = 'Status line: ' . $matches[0];
+            }
+            throw new Exception('Error while sending the access token request. ' . $additionalInfo, 0, null, $result);
         }
 
         $resultJson = json_decode($result->getResponseBody(), true);
