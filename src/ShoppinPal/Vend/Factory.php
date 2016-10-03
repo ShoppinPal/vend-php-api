@@ -10,6 +10,7 @@ use ShoppinPal\Vend\Api\V0\Registers as RegistersV0;
 use ShoppinPal\Vend\Api\V0\RegisterSales as RegisterSalesV0;
 use ShoppinPal\Vend\Api\V0\Taxes as TaxesV0;
 use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
+use ShoppinPal\Vend\Api\V2\PriceBooks as PriceBooksV2;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
 use YapepBase\Config;
@@ -30,6 +31,9 @@ class Factory
 {
     /** Version 0 (unversioned, official as of 2016-05-01) API */
     const API_VERSION_0 = 'V0';
+
+    /** Version 2 (BETA as of 2016-10-02) API  */
+    const API_VERSION_2 = 'V2';
 
     /**
      * @var Config
@@ -96,7 +100,7 @@ class Factory
     public function getCustomersApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new CustomersV0($this->getAuthHelper(), $this->getDomainPrefix());
             
             default:
@@ -117,7 +121,7 @@ class Factory
     public function getOutletsApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new OutletsV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
@@ -138,8 +142,23 @@ class Factory
     public function getPaymentTypesApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new PaymentTypesV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    public function getPriceBooksApi($version)
+    {
+        switch ($version) {
+            case self::API_VERSION_0:
+                throw new ParameterException('The V0 API version has no pricebooks API');
+                break;
+
+            case self::API_VERSION_2:
+                return new PriceBooksV2($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
                 throw new ParameterException('Unknown version: ' . $version);
@@ -159,7 +178,7 @@ class Factory
     public function getProductsApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new ProductsV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
@@ -180,7 +199,7 @@ class Factory
     public function getRegistersApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new RegistersV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
@@ -201,7 +220,7 @@ class Factory
     public function getRegisterSalesApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new RegisterSalesV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
@@ -222,7 +241,7 @@ class Factory
     public function getTaxesApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new TaxesV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
@@ -243,7 +262,7 @@ class Factory
     public function getWebhooksApi($version)
     {
         switch ($version) {
-            case 'V0':
+            case self::API_VERSION_0:
                 return new WebhooksV0($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:

@@ -51,6 +51,7 @@ class RegisterSale extends EntityDoAbstract
 
     public $shortCode;
 
+    /** @var RegisterSaleTotal */
     public $totals;
 
     public $note;
@@ -59,13 +60,18 @@ class RegisterSale extends EntityDoAbstract
 
     public $createdAt;
 
+    /** @var CustomerSubEntity */
     public $customer;
 
+    /** @var UserSubEntity */
     public $user;
 
+    /** @var RegisterSaleProduct[] */
     public $registerSaleProducts = [];
 
+    /** @var RegisterSalePayment[] */
     public $registerSalePayments = [];
 
+    /** @var TaxSubEntity[] */
     public $taxes = [];
 }

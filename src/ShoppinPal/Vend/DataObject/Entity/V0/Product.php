@@ -15,6 +15,10 @@ class Product extends EntityDoAbstract{
             self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => ProductComposite::class,
         ],
+        'priceBookEntries' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => ProductPriceBookEntry::class,
+        ],
     ];
 
     public $id;
@@ -65,7 +69,12 @@ class Product extends EntityDoAbstract{
 
     public $supplierCode;
 
+    /** @var Inventory[] */
     public $inventory = [];
 
+    /** @var ProductComposite[] */
     public $composites = [];
+
+    /** @var ProductPriceBookEntry[] */
+    public $priceBookEntries = [];
 }

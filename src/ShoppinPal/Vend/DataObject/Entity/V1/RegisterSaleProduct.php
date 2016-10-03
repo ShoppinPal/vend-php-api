@@ -35,5 +35,6 @@ class RegisterSaleProduct extends EntityDoAbstract
 
     public $taxRate;
 
+    /** @var RegisterSaleProductAttribute[] */
     public $attributes = [];
 }
