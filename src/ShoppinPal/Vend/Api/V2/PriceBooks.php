@@ -2,16 +2,15 @@
 
 namespace ShoppinPal\Vend\Api\V2;
 
-use ShoppinPal\Vend\Api\BaseApiAbstract;
 use ShoppinPal\Vend\DataObject\Entity\V2\CollectionResult;
 use ShoppinPal\Vend\DataObject\Entity\V2\PriceBook;
-use Vend\Exception\EntityNotFoundException;
+use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use YapepBase\Communication\CurlHttpRequest;
 
 /**
  * Implements the V2 PriceBooks API
  */
-class PriceBooks extends BaseApiAbstract
+class PriceBooks extends V2ApiAbstract
 {
 
     /**
@@ -50,7 +49,7 @@ class PriceBooks extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/2.0/price_books', $params, true);
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'price book get collection');
 
         $priceBooks = [];
 
@@ -77,7 +76,7 @@ class PriceBooks extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/2.0/price_books/' . urlencode($priceBookId));
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'price book get');
 
         return new PriceBook($result['data']);
     }
@@ -96,7 +95,7 @@ class PriceBooks extends BaseApiAbstract
 
         $request->setPayload(json_encode($priceBook->toUnderscoredArray()), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'price book create');
 
         return new PriceBook($result['data'], PriceBook::UNKNOWN_PROPERTY_IGNORE);
     }

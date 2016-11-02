@@ -2,7 +2,6 @@
 
 namespace ShoppinPal\Vend\Api\V0;
 
-use ShoppinPal\Vend\Api\BaseApiAbstract;
 use ShoppinPal\Vend\DataObject\Entity\V0\CollectionResult;
 use ShoppinPal\Vend\DataObject\Entity\V0\Customer;
 use YapepBase\Communication\CurlHttpRequest;
@@ -10,7 +9,7 @@ use YapepBase\Communication\CurlHttpRequest;
 /**
  * Implements the V0 Customers API
  */
-class Customers extends BaseApiAbstract
+class Customers extends V0ApiAbstract
 {
     /** Collection ordering: ID */
     const COLLECTION_ORDER_BY_ID = 'id';
@@ -66,7 +65,7 @@ class Customers extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/customers', $params);
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'customer get collection');
 
         $customers = [];
 
@@ -109,7 +108,7 @@ class Customers extends BaseApiAbstract
 
         $request->setPayload(json_encode($modifiedCustomer->toUnderscoredArray()), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'customer create');
 
         return new Customer($result['customer'], Customer::UNKNOWN_PROPERTY_IGNORE);
     }
@@ -121,7 +120,7 @@ class Customers extends BaseApiAbstract
      * @param Customer $customer   The new data for the customer.
      *
      * @return Customer
-     * @throws \Vend\Exception\EntityNotFoundException If the customer is not found.
+     * @throws \ShoppinPal\Vend\Exception\EntityNotFoundException If the customer is not found.
      */
     public function update($customerId, Customer $customer)
     {
@@ -133,7 +132,7 @@ class Customers extends BaseApiAbstract
 
         $request->setPayload(json_encode($modifiedCustomer->toUnderscoredArray()), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'customer update');
 
         return new Customer($result['customer'], Customer::UNKNOWN_PROPERTY_IGNORE);
     }

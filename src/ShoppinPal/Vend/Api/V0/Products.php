@@ -2,16 +2,15 @@
 
 namespace ShoppinPal\Vend\Api\V0;
 
-use ShoppinPal\Vend\Api\BaseApiAbstract;
 use ShoppinPal\Vend\DataObject\Entity\V0\CollectionResult;
 use ShoppinPal\Vend\DataObject\Entity\V0\Product;
-use Vend\Exception\EntityNotFoundException;
+use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use YapepBase\Communication\CurlHttpRequest;
 
 /**
  * Implements the V0 Products API
  */
-class Products extends BaseApiAbstract
+class Products extends V0ApiAbstract
 {
     /** Collection ordering: ID */
     const COLLECTION_ORDER_BY_ID = 'id';
@@ -70,7 +69,7 @@ class Products extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/products', $params);
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'product get collection');
 
         $products = [];
 
@@ -110,7 +109,7 @@ class Products extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/products/' . urlencode($productId));
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'product get');
 
         return new Product($result, Product::UNKNOWN_PROPERTY_IGNORE);
     }
@@ -132,7 +131,7 @@ class Products extends BaseApiAbstract
 
         $request->setPayload(json_encode($modifiedProduct->toUnderscoredArray([], true)), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'product create');
 
         return new Product($result['product'], Product::UNKNOWN_PROPERTY_IGNORE);
     }
@@ -157,7 +156,7 @@ class Products extends BaseApiAbstract
 
         $request->setPayload(json_encode($modifiedProduct->toUnderscoredArray([], true)), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'product update');
 
         return new Product($result['product'], Product::UNKNOWN_PROPERTY_IGNORE);
     }

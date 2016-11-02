@@ -2,12 +2,11 @@
 
 namespace ShoppinPal\Vend\Api\V0;
 
-use ShoppinPal\Vend\Api\BaseApiAbstract;
 use ShoppinPal\Vend\DataObject\Entity\V0\RegisterSale;
 use YapepBase\Communication\CurlHttpRequest;
 use YapepBase\Exception\ParameterException;
 
-class RegisterSales extends BaseApiAbstract
+class RegisterSales extends V0ApiAbstract
 {
     public function create(RegisterSale $registerSale)
     {
@@ -15,17 +14,17 @@ class RegisterSales extends BaseApiAbstract
             return $this->createReturn($registerSale);
         }
 
-        return $this->doCreate($registerSale);
+        return $this->doCreate($registerSale, 'register sale create');
     }
 
-    protected function doCreate(RegisterSale $registerSale)
+    protected function doCreate(RegisterSale $registerSale, $requestType)
     {
         $request = $this->getAuthenticatedRequestForUri('api/register_sales');
         $request->setMethod(CurlHttpRequest::METHOD_POST);
 
         $request->setPayload(json_encode($registerSale->toUnderscoredArray([], true)), CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, $requestType);
 
         return new RegisterSale($result['register_sale'], RegisterSale::UNKNOWN_PROPERTY_IGNORE);
     }
@@ -42,12 +41,12 @@ class RegisterSales extends BaseApiAbstract
 
         $request->setMethod(CurlHttpRequest::METHOD_PUT);
 
-        $returnResult = $this->sendRequest($request);
+        $returnResult = $this->sendRequest($request, 'register sale create return');
 
         $modifiedRegisterSale = clone($registerSale);
 
         $modifiedRegisterSale->id = $returnResult['data']['id'];
 
-        return $this->doCreate($modifiedRegisterSale);
+        return $this->doCreate($modifiedRegisterSale, 'register sale return update');
     }
 }

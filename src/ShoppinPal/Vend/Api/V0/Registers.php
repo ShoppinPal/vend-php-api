@@ -2,18 +2,17 @@
 
 namespace ShoppinPal\Vend\Api\V0;
 
-use ShoppinPal\Vend\Api\BaseApiAbstract;
 use ShoppinPal\Vend\DataObject\Entity\V0\Register;
 use YapepBase\Communication\CurlHttpRequest;
 
-class Registers extends BaseApiAbstract
+class Registers extends V0ApiAbstract
 {
 
     /**
      * Returns all registers
      *
      * @return Register[]
-     * @throws \Vend\Exception\EntityNotFoundException
+     * @throws \ShoppinPal\Vend\Exception\EntityNotFoundException
      * @throws \YapepBase\Exception\CurlException
      * @throws \YapepBase\Exception\Exception
      */
@@ -22,7 +21,7 @@ class Registers extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/registers');
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'register get all');
 
         $registers = [];
 

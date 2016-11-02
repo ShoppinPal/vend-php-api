@@ -1,6 +1,6 @@
 <?php
 
-namespace Vend\Exception;
+namespace ShoppinPal\Vend\Exception;
 
 use YapepBase\Exception\Exception;
 

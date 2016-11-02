@@ -2,17 +2,16 @@
 
 namespace ShoppinPal\Vend\Api\V0;
 
-use ShoppinPal\Vend\Api\BaseApiAbstract;
 use ShoppinPal\Vend\DataObject\Entity\V0\PaymentType;
 use YapepBase\Communication\CurlHttpRequest;
 
-class PaymentTypes extends BaseApiAbstract
+class PaymentTypes extends V0ApiAbstract
 {
     /**
      * Returns all payment types
      *
      * @return PaymentType[]
-     * @throws \Vend\Exception\EntityNotFoundException
+     * @throws \ShoppinPal\Vend\Exception\EntityNotFoundException
      * @throws \YapepBase\Exception\CurlException
      * @throws \YapepBase\Exception\Exception
      */
@@ -21,7 +20,7 @@ class PaymentTypes extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/payment_types');
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'payment type get all');
 
         $paymentTypes = [];
 

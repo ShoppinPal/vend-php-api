@@ -3,21 +3,27 @@
 namespace ShoppinPal\Vend\Api;
 
 use ShoppinPal\Vend\Auth\AuthHelper;
-use Vend\Exception\EntityNotFoundException;
+use ShoppinPal\Vend\Exception\CommunicationException;
+use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use YapepBase\Application;
 use YapepBase\Communication\CurlHttpRequest;
-use YapepBase\Exception\Exception;
 
 /**
  * Base class for the API handlers.
  */
-class BaseApiAbstract
+abstract class BaseApiAbstract
 {
     /** Collection order direction: ascending */
     const COLLECTION_ORDER_DIRECTION_ASC = 'ASC';
 
     /** Collection order direction: descending */
     const COLLECTION_ORDER_DIRECTION_DESC = 'DESC';
+
+    // API version constants
+    const API_VERSION_0 = 'V0';
+    const API_VERSION_1 = 'V1';
+    const API_VERSION_2 = 'V2';
+
 
     /**
      * @var AuthHelper
@@ -75,11 +81,13 @@ class BaseApiAbstract
      *
      * @param CurlHttpRequest $request The request to send.
      *
-     * @return array
+     * @param                 $requestType
      *
-     * @throws Exception If there was an error while sending the request, or if invalid data is received from Vend.
+     * @return array
+     * @throws EntityNotFoundException
+     * @throws CommunicationException
      */
-    protected function sendRequest(CurlHttpRequest $request)
+    protected function sendRequest(CurlHttpRequest $request, $requestType)
     {
         $result = $request->send();
 
@@ -88,15 +96,24 @@ class BaseApiAbstract
         }
 
         if (!$result->isRequestSuccessful()) {
-            throw new Exception('Error while sending request to Vend', 0, null, $result);
+            $exceptionClass = $this->getCommunicationExceptionClass();
+            throw new $exceptionClass($requestType, $result, 0, null, $result);
         }
 
         $resultData = json_decode($result->getResponseBody(), true);
 
         if (empty($resultData)) {
-            throw new Exception('The data received from Vend is not JSON', 0, null, $result);
+            $exceptionClass = $this->getCommunicationExceptionClass();
+            throw new $exceptionClass($requestType, $result, 0, null, $result);
         }
 
         return $resultData;
     }
+
+    /**
+     * Retuns the fully qualified class name of the communication exception to be thrown
+     *
+     * @return string
+     */
+    abstract protected function getCommunicationExceptionClass();
 }

@@ -2,19 +2,18 @@
 
 namespace ShoppinPal\Vend\Api\V0;
 
-use ShoppinPal\Vend\Api\BaseApiAbstract;
 use ShoppinPal\Vend\DataObject\Entity\V0\Webhook;
 use YapepBase\Communication\CurlHttpRequest;
 use YapepBase\Exception\Exception;
 
-class Webhooks extends BaseApiAbstract
+class Webhooks extends V0ApiAbstract
 {
     public function getAll()
     {
         $request = $this->getAuthenticatedRequestForUri('api/webhooks');
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'webhook get all');
 
         $webhooks = [];
 
@@ -30,7 +29,7 @@ class Webhooks extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/webhooks/' . urlencode($webhookId));
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'webhook get');
 
         return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE);
 
@@ -49,7 +48,7 @@ class Webhooks extends BaseApiAbstract
             CurlHttpRequest::PAYLOAD_TYPE_FORM_ENCODED
         );
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'webhook create');
 
         return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE);
     }
@@ -64,7 +63,7 @@ class Webhooks extends BaseApiAbstract
             CurlHttpRequest::PAYLOAD_TYPE_FORM_ENCODED
         );
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'webhook update');
 
         return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE);
     }
@@ -74,7 +73,7 @@ class Webhooks extends BaseApiAbstract
         $request = $this->getAuthenticatedRequestForUri('api/webhooks/' . urlencode($webhookId));;
         $request->setMethod(CurlHttpRequest::METHOD_DELETE);
 
-        $result = $this->sendRequest($request);
+        $result = $this->sendRequest($request, 'webhook delete');
 
         if (empty($result['status']) || 'success' != $result['status']) {
             throw new Exception('Invalid response received for webhook delete request.', 0, null, $result);
