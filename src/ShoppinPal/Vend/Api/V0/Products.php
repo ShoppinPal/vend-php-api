@@ -111,7 +111,7 @@ class Products extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'product get');
 
-        return new Product($result, Product::UNKNOWN_PROPERTY_IGNORE);
+        return new Product($result['products'], Product::UNKNOWN_PROPERTY_IGNORE);
     }
 
     /**
