@@ -10,6 +10,7 @@ use ShoppinPal\Vend\Api\V0\Registers as RegistersV0;
 use ShoppinPal\Vend\Api\V0\RegisterSales as RegisterSalesV0;
 use ShoppinPal\Vend\Api\V0\Taxes as TaxesV0;
 use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
+use ShoppinPal\Vend\Api\V2\PaymentTypes as PaymentTypesV2;
 use ShoppinPal\Vend\Api\V2\PriceBooks as PriceBooksV2;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
@@ -134,7 +135,7 @@ class Factory
      *
      * @param string $version The version to use. {@uses self::API_VERSION_*}
      *
-     * @return PaymentTypesV0
+     * @return PaymentTypesV0|PaymentTypesV2
      *
      * @throws ParameterException If the version is invalid.
      * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
@@ -145,11 +146,24 @@ class Factory
             case self::API_VERSION_0:
                 return new PaymentTypesV0($this->getAuthHelper(), $this->getDomainPrefix());
 
+            case self::API_VERSION_2:
+                return new PaymentTypesV2($this->getAuthHelper(), $this->getDomainPrefix());
+
             default:
                 throw new ParameterException('Unknown version: ' . $version);
         }
     }
 
+    /**
+     * Returns a Price Books API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return PriceBooksV2
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
     public function getPriceBooksApi($version)
     {
         switch ($version) {
