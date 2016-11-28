@@ -3,7 +3,7 @@
 namespace ShoppinPal\Vend\Api\V2;
 
 use ShoppinPal\Vend\DataObject\Entity\V2\CollectionResult;
-use ShoppinPal\Vend\DataObject\Entity\V2\PriceBook;
+use ShoppinPal\Vend\DataObject\Entity\V2\PaymentType;
 use YapepBase\Communication\CurlHttpRequest;
 
 /**
@@ -50,14 +50,14 @@ class PaymentTypes extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'payment type get collection');
 
-        $priceBooks = [];
+        $paymentTypes = [];
 
-        foreach ($result['data'] as $priceBook) {
-            $priceBooks[] = new PriceBook($priceBook, PriceBook::UNKNOWN_PROPERTY_IGNORE);
+        foreach ($result['data'] as $paymentType) {
+            $paymentTypes[] = new PaymentType($paymentType, PaymentType::UNKNOWN_PROPERTY_IGNORE);
         }
 
         return new CollectionResult(
-            $result['version']['min'], $result['version']['max'], $priceBooks
+            $result['version']['min'], $result['version']['max'], $paymentTypes
         );
     }
 }
