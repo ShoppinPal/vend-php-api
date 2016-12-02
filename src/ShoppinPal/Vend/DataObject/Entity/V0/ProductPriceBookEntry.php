@@ -32,6 +32,8 @@ class ProductPriceBookEntry extends EntityDoAbstract{
 
     public $taxRate;
 
+    public $taxName;
+
     public $displayRetailPriceTaxInclusive;
 
     public $minUnits;
