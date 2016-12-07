@@ -35,6 +35,8 @@ class Product extends EntityDoAbstract{
 
     public $name;
 
+    public $active;
+
     public $description;
 
     public $sku;
