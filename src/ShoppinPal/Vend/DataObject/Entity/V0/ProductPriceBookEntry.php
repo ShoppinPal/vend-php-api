@@ -4,7 +4,14 @@ namespace ShoppinPal\Vend\DataObject\Entity\V0;
 
 use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
 
-class ProductPriceBookEntry extends EntityDoAbstract{
+class ProductPriceBookEntry extends EntityDoAbstract
+{
+
+    /** Base price book */
+    const TYPE_BASE = 'BASE';
+
+    /** General, customer created price book */
+    const TYPE_GENERAL = 'GENERAL';
 
     public $id;
 
@@ -13,6 +20,8 @@ class ProductPriceBookEntry extends EntityDoAbstract{
     public $priceBookId;
 
     public $priceBookName;
+
+    public $type;
 
     public $outletName;
 

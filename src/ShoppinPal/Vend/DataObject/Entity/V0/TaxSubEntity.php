@@ -2,15 +2,9 @@
 
 namespace ShoppinPal\Vend\DataObject\Entity\V0;
 
-use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
-
-class TaxSubEntity extends EntityDoAbstract
+class TaxSubEntity extends TaxRequest
 {
     public $id;
 
     public $tax;
-
-    public $name;
-
-    public $rate;
 }

@@ -3,6 +3,7 @@
 namespace ShoppinPal\Vend\Api\V0;
 
 use ShoppinPal\Vend\DataObject\Entity\V0\Tax;
+use ShoppinPal\Vend\DataObject\Entity\V0\TaxRequest;
 use YapepBase\Communication\CurlHttpRequest;
 
 class Taxes extends V0ApiAbstract
@@ -22,12 +23,30 @@ class Taxes extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'tax get all');
 
-        $registers = [];
+        $taxes = [];
 
         foreach ($result['taxes'] as $tax) {
-            $registers[] = new Tax($tax, Tax::UNKNOWN_PROPERTY_IGNORE);
+            $taxes[] = new Tax($tax, Tax::UNKNOWN_PROPERTY_IGNORE);
         }
 
-        return $registers;
+        return $taxes;
+    }
+
+    /**
+     * Creates a tax
+     *
+     * @param TaxRequest $taxRequest
+     *
+     * @return Tax
+     */
+    public function create(TaxRequest $taxRequest)
+    {
+        $request = $this->getAuthenticatedRequestForUri('api/taxes');
+        $request->setMethod(CurlHttpRequest::METHOD_POST);
+        $request->setPayload($taxRequest->toUnderscoredArray([], true), CurlHttpRequest::PAYLOAD_TYPE_RAW);
+
+        $result = $this->sendRequest($request, 'tax create');
+
+        return new Tax($result['tax'], Tax::UNKNOWN_PROPERTY_IGNORE);
     }
 }

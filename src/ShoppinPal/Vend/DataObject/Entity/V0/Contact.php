@@ -7,49 +7,49 @@ use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
 class Contact extends EntityDoAbstract
 {
 
-    public $companyName;
-
-    public $email;
-
-    public $fax;
-
     public $firstName;
 
     public $lastName;
 
-    public $mobile;
+    public $companyName;
 
     public $phone;
+
+    public $mobile;
+
+    public $fax;
+
+    public $email;
+
+    public $twitter;
+
+    public $website;
 
     public $physicalAddress1;
 
     public $physicalAddress2;
 
-    public $physicalCity;
+    public $physicalSuburb;
 
-    public $physicalCountryId;
+    public $physicalCity;
 
     public $physicalPostcode;
 
     public $physicalState;
 
-    public $physicalSuburb;
+    public $physicalCountryId;
 
     public $postalAddress1;
 
     public $postalAddress2;
 
-    public $postalCity;
+    public $postalSuburb;
 
-    public $postalCountryId;
+    public $postalCity;
 
     public $postalPostcode;
 
     public $postalState;
 
-    public $postalSuburb;
-
-    public $twitter;
-
-    public $website;
+    public $postalCountryId;
 }

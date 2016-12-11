@@ -20,11 +20,13 @@ class Webhook extends EntityDoAbstract
 
     public $id;
 
-    public $active;
-
     public $retailerId;
 
-    public $type;
+    public $userId;
 
     public $url;
+
+    public $active;
+
+    public $type;
 }

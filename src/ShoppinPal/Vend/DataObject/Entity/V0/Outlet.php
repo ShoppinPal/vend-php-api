@@ -16,27 +16,30 @@ class Outlet extends EntityDoAbstract
 
     public $id;
 
-    public $email;
+    public $retailerId;
 
     public $name;
+
+    public $timeZone;
+
+    public $taxId;
+
+    /** @var Contact */
+    public $contact;
+
+    public $email;
 
     public $physicalAddress1;
 
     public $physicalAddress2;
 
-    public $physicalCity;
+    public $physicalSuburb;
 
-    public $physicalCountryId;
+    public $physicalCity;
 
     public $physicalPostcode;
 
     public $physicalState;
 
-    public $physicalSuburb;
-
-    public $retailerId;
-
-    public $timeZone;
-
-    public $contact;
+    public $physicalCountryId;
 }

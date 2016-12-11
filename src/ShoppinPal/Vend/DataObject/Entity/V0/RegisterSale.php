@@ -16,6 +16,10 @@ class RegisterSale extends EntityDoAbstract
     const STATUS_VOIDED = 'VOIDED';
 
     protected $subEntities = [
+        'customer' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_SINGLE,
+            self::SUB_ENTITY_KEY_CLASS => CustomerSubEntity::class,
+        ],
         'registerSaleProducts' => [
             self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => RegisterSaleProduct::class,
@@ -36,6 +40,10 @@ class RegisterSale extends EntityDoAbstract
 
     public $id;
 
+    public $source;
+
+    public $sourceId;
+
     public $registerId;
 
     public $marketId;
@@ -44,11 +52,18 @@ class RegisterSale extends EntityDoAbstract
 
     public $customerName;
 
+    /** @var CustomerSubEntity */
+    public $customer;
+
     public $userId;
 
     public $userName;
 
     public $saleDate;
+
+    public $createdAt;
+
+    public $updatedAt;
 
     public $totalPrice;
 
@@ -64,7 +79,7 @@ class RegisterSale extends EntityDoAbstract
 
     public $invoiceNumber;
 
-    public $invoiceSequence;
+    public $accountsTransactionId;
 
     public $returnFor;
 

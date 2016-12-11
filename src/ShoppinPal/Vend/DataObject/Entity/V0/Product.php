@@ -4,9 +4,14 @@ namespace ShoppinPal\Vend\DataObject\Entity\V0;
 
 use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
 
-class Product extends EntityDoAbstract{
+class Product extends EntityDoAbstract
+{
 
     protected $subEntities = [
+        'images' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => ProductImage::class,
+        ],
         'inventory' => [
             self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => Inventory::class,
@@ -19,27 +24,25 @@ class Product extends EntityDoAbstract{
             self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => ProductPriceBookEntry::class,
         ],
+        'taxes' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => ProductTax::class,
+        ]
     ];
 
     public $id;
 
     public $sourceId;
 
-    public $sourceVariantId;
+    public $vairantSourceId;
 
     public $handle;
 
     public $type;
 
-    public $tags;
+    public $hasVariants;
 
-    public $name;
-
-    public $active;
-
-    public $description;
-
-    public $sku;
+    public $variantParentId;
 
     public $variantOptionOneName;
 
@@ -53,7 +56,55 @@ class Product extends EntityDoAbstract{
 
     public $variantOptionThreeValue;
 
+    public $active;
+
+    public $name;
+
+    public $baseName;
+
+    public $description;
+
+    public $image;
+
+    public $imageLarge;
+
+    /** @var ProductImage[] */
+    public $images = [];
+
+    public $sku;
+
+    public $tags;
+
+    public $brandId;
+
+    public $brandName;
+
+    public $supplierName;
+
+    public $supplierCode;
+
     public $supplyPrice;
+
+    public $accountCodePurchase;
+
+    public $accountCodeSales;
+
+    public $trackInventory;
+
+    public $buttonOrder;
+
+    /** @var Inventory[] */
+    public $inventory = [];
+
+    /** @var ProductPriceBookEntry[] */
+    public $priceBookEntries = [];
+
+    /**
+     * Alias to retailPrice
+     *
+     * @var float
+     */
+    public $price;
 
     public $retailPrice;
 
@@ -65,18 +116,13 @@ class Product extends EntityDoAbstract{
 
     public $taxName;
 
-    public $brandName;
+    /** @var ProductTax */
+    public $taxes = [];
 
-    public $supplierName;
+    public $updatedAt;
 
-    public $supplierCode;
-
-    /** @var Inventory[] */
-    public $inventory = [];
+    public $deletedAt;
 
     /** @var ProductComposite[] */
     public $composites = [];
-
-    /** @var ProductPriceBookEntry[] */
-    public $priceBookEntries = [];
 }
