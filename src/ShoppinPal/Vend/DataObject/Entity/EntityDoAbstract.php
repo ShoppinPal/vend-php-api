@@ -79,9 +79,13 @@ class EntityDoAbstract {
                 $className = $this->subEntities[$propertyName][self::SUB_ENTITY_KEY_CLASS];
 
                 if ($this->subEntities[$propertyName][self::SUB_ENTITY_KEY_TYPE] == self::SUB_ENTITY_TYPE_COLLECTION) {
-                    $tmpValue = [];
-                    foreach ($value as $subEntity) {
-                        $tmpValue[] = new $className($subEntity, $unknownPropertyHandling);
+                    if (is_array($value)) {
+                        $tmpValue = null;
+                    } else {
+                        $tmpValue = [];
+                        foreach ($value as $subEntity) {
+                            $tmpValue[] = new $className($subEntity, $unknownPropertyHandling);
+                        }
                     }
                     $this->$propertyName = $tmpValue;
                 } else {

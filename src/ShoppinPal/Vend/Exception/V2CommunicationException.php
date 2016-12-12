@@ -32,7 +32,7 @@ class V2CommunicationException extends CommunicationException
             $decodedBody = json_decode($curlResult->getResponseBody(), true);
 
             if ($decodedBody) {
-                if (isset($decodedBody['errors']) && isset($decodedBody['reference'])) {
+                if (isset($decodedBody['status']) && isset($decodedBody['error'])) {
                     $message .= ' Status: ' . $decodedBody['status'] . '. Error: ' . $decodedBody['error'] . '.';
                     if (isset($decodedBody['details'])) {
                         $message .= ' Details: ' .  $decodedBody['details'];
