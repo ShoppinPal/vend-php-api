@@ -7,7 +7,7 @@ use ShoppinPal\Vend\Api\V0\Outlets as OutletsV0;
 use ShoppinPal\Vend\Api\V0\Products as ProductsV0;
 use ShoppinPal\Vend\Api\V0\PaymentTypes as PaymentTypesV0;
 use ShoppinPal\Vend\Api\V0\Registers as RegistersV0;
-use ShoppinPal\Vend\Api\V0\RegisterSales as RegisterSalesV0;
+use ShoppinPal\Vend\Api\V0\RegisterSales as SalesV0;
 use ShoppinPal\Vend\Api\V0\Suppliers as SuppliersV0;
 use ShoppinPal\Vend\Api\V0\Taxes as TaxesV0;
 use ShoppinPal\Vend\Api\V0\Users as UsersV0;
@@ -15,6 +15,7 @@ use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
 use ShoppinPal\Vend\Api\V2\Customers as CustomersV2;
 use ShoppinPal\Vend\Api\V2\PaymentTypes as PaymentTypesV2;
 use ShoppinPal\Vend\Api\V2\PriceBooks as PriceBooksV2;
+use ShoppinPal\Vend\Api\V2\Sales as SalesV2;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
 use YapepBase\Config;
@@ -232,16 +233,36 @@ class Factory
      *
      * @param string $version The version to use. {@uses self::API_VERSION_*}
      *
-     * @return RegisterSalesV0
+     * @return SalesV0|SalesV2
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     *
+     * @deprecated Will be removed in next minor or major release. Use getSalesApi instead
+     */
+    public function getRegisterSalesApi($version)
+    {
+        return $this->getSalesApi($version);
+    }
+
+    /**
+     * Returns a Sales API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return SalesV0|SalesV2
      *
      * @throws ParameterException If the version is invalid.
      * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
      */
-    public function getRegisterSalesApi($version)
+    public function getSalesApi($version)
     {
         switch ($version) {
             case self::API_VERSION_0:
-                return new RegisterSalesV0($this->getAuthHelper(), $this->getDomainPrefix());
+                return new SalesV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            case self::API_VERSION_2:
+                return new SalesV2($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
                 throw new ParameterException('Unknown version: ' . $version);
