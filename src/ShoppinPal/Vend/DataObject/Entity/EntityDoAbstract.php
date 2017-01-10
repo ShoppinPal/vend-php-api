@@ -124,7 +124,7 @@ class EntityDoAbstract {
                 continue;
             }
 
-            $index = StringHelper::camelToUnderScode($propertyName);
+            $index = StringHelper::camelToUnderScore($propertyName);
 
             if (array_key_exists($propertyName, $this->subEntities)) {
                 if ($value === null) {

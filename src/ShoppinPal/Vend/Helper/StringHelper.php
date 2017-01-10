@@ -27,11 +27,25 @@ class StringHelper {
      * @param string $string
      *
      * @return string
+     *
+     * @deprecated
      */
     public static function camelToUnderScode($string)
     {
+        return self::camelToUnderScode($string);
+    }
+
+    /**
+     * Converts a camelCase string to under_scored
+     *
+     * @param string $string
+     *
+     * @return string
+     */
+    public static function camelToUnderScore($string)
+    {
         return strtolower(implode('_', preg_split(
-            '/([A-Z][a-z0-9]*)/',
+            '/((?:[A-Z]|[0-9]+)[a-z]*)/',
             $string,
             -1,
             PREG_SPLIT_DELIM_CAPTURE|PREG_SPLIT_NO_EMPTY
