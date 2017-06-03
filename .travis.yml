@@ -5,4 +5,4 @@ php:
     - 7.1
 before_install:
     - composer install
-script: phpunit --verbose test
+script: phpunit test
