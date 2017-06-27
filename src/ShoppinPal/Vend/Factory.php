@@ -19,6 +19,7 @@ use ShoppinPal\Vend\Api\V2\PaymentTypes as PaymentTypesV2;
 use ShoppinPal\Vend\Api\V2\PriceBooks as PriceBooksV2;
 use ShoppinPal\Vend\Api\V2\Products as ProductsV2;
 use ShoppinPal\Vend\Api\V2\Sales as SalesV2;
+use ShoppinPal\Vend\Api\V2\Versions as VersionsV2;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
 use YapepBase\Config;
@@ -356,6 +357,27 @@ class Factory
         switch ($version) {
             case self::API_VERSION_0:
                 return new UsersV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns a Versions API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return VersionsV2
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getVersionsApi($version)
+    {
+        switch ($version) {
+            case self::API_VERSION_2:
+                return new VersionsV2($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
                 throw new ParameterException('Unknown version: ' . $version);
