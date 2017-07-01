@@ -7,6 +7,18 @@ use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
 class Product extends EntityDoAbstract
 {
     protected $subEntities = [
+        'type' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_SINGLE,
+            self::SUB_ENTITY_KEY_CLASS => ProductType::class,
+        ],
+        'brand' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_SINGLE,
+            self::SUB_ENTITY_KEY_CLASS => Brand::class,
+        ],
+        'supplier' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_SINGLE,
+            self::SUB_ENTITY_KEY_CLASS => Supplier::class,
+        ],
         'variantOptions' => [
             self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => ProductVariantOption::class,
@@ -55,12 +67,13 @@ class Product extends EntityDoAbstract
 
     public $supplyPrice;
 
-    public $version;
-
+    /** @var ProductType|null */
     public $type;
 
+    /** @var Supplier|null */
     public $supplier;
 
+    /** @var Brand|null */
     public $brand;
 
     /** @var ProductVariantOption[] */
@@ -93,4 +106,6 @@ class Product extends EntityDoAbstract
     public $tagIds;
 
     public $attributes;
+
+    public $version;
 }
