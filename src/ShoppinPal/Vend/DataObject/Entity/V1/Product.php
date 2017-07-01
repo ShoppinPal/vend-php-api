@@ -25,6 +25,10 @@ class Product extends ProductSubEntity
             self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => PriceBookEntrySubEntity::class,
         ],
+        'variantOptions' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => ProductVariantOption::class,
+        ],
     ];
 
     public $retailerId;
@@ -38,4 +42,6 @@ class Product extends ProductSubEntity
     public $inventory = [];
 
     public $priceBookEntries = [];
+
+    public $variantOptions = [];
 }

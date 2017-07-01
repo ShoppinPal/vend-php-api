@@ -6,6 +6,12 @@ use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
 
 class Product extends EntityDoAbstract
 {
+    protected $subEntities = [
+        'variantOptions' => [
+            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => ProductVariantOption::class,
+        ],
+    ];
 
     public $id;
 
@@ -57,7 +63,8 @@ class Product extends EntityDoAbstract
 
     public $brand;
 
-    public $variantOptions;
+    /** @var ProductVariantOption[] */
+    public $variantOptions = [];
 
     public $categories;
 
