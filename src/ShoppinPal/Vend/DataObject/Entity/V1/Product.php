@@ -33,15 +33,21 @@ class Product extends ProductSubEntity
 
     public $retailerId;
 
+    /** @var ProductTypeSubEntity */
     public $productType;
 
+    /** @var SupplierSubEntity */
     public $supplier;
 
+    /** @var BrandSubEntity */
     public $brand;
 
+    /** @var InventorySubEntity[] */
     public $inventory = [];
 
+    /** @var PriceBookEntrySubEntity[] */
     public $priceBookEntries = [];
 
+    /** @var ProductVariantOption[] */
     public $variantOptions = [];
 }
