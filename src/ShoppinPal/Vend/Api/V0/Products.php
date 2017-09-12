@@ -160,4 +160,21 @@ class Products extends V0ApiAbstract
 
         return new Product($result['product'], Product::UNKNOWN_PROPERTY_IGNORE);
     }
+
+    /**
+     * Deletes the specified product.
+     *
+     * @param string  $productId ID of the product.
+     *
+     * @return void
+     *
+     * @throws EntityNotFoundException If the product is not found.
+     */
+    public function delete($productId)
+    {
+        $request = $this->getAuthenticatedRequestForUri('api/products/' . urlencode($productId));
+        $request->setMethod(CurlHttpRequest::METHOD_DELETE);
+
+        $this->sendRequest($request, 'product delete');
+    }
 }
