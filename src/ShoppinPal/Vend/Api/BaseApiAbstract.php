@@ -83,7 +83,7 @@ abstract class BaseApiAbstract
      *
      * @param                 $requestType
      *
-     * @return array
+     * @return array|null
      * @throws EntityNotFoundException
      * @throws CommunicationException
      */
@@ -98,6 +98,10 @@ abstract class BaseApiAbstract
         if (!$result->isRequestSuccessful()) {
             $exceptionClass = $this->getCommunicationExceptionClass();
             throw new $exceptionClass($requestType, $result, 0, null, $result);
+        }
+
+        if (204 == $result->getResponseCode()) {
+            return null;
         }
 
         $resultData = json_decode($result->getResponseBody(), true);
