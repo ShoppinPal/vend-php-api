@@ -50,11 +50,19 @@ class EntityDoAbstract {
      *
      * @param array  $data                    The data to be represented.
      * @param string $unknownPropertyHandling How to handle unknown properties.
+     * @param bool   $skipNotSetValues        If TRUE, values not explicitly set will not have the not set value.
      *
      * @throws ParameterException If an unknown property is encountered and using throw.
      */
-    public function __construct(array $data = [], $unknownPropertyHandling = self::UNKNOWN_PROPERTY_THROW)
-    {
+    public function __construct(
+        array $data = [],
+        $unknownPropertyHandling = self::UNKNOWN_PROPERTY_THROW,
+        $skipNotSetValues = false
+    ) {
+        if (!$skipNotSetValues) {
+            $this->setAllPropertiesToNotSet();
+        }
+
         foreach ($data as $key => $value) {
             $propertyName= StringHelper::underScoreToCamel($key);
 
@@ -120,7 +128,7 @@ class EntityDoAbstract {
                 continue;
             }
 
-            if ($removeNulls && $value === null) {
+            if ($value instanceof NotSetValue || ($removeNulls && $value === null)) {
                 continue;
             }
 
@@ -132,14 +140,20 @@ class EntityDoAbstract {
                 } elseif ($this->subEntities[$propertyName][self::SUB_ENTITY_KEY_TYPE] == self::SUB_ENTITY_TYPE_COLLECTION) {
                     $result[$index] = [];
 
-                    /** @var EntityDoAbstract $subEntity */
                     foreach ($value as $subEntity) {
-                        $result[$index][] = $subEntity->toUnderscoredArray([], $removeNulls);
+                        if ($subEntity instanceof EntityDoAbstract) {
+                            $result[$index][] = $subEntity->toUnderscoredArray([], $removeNulls);
+                        } else {
+                            $result[$index][] = $subEntity;
+                        }
                     }
 
                 } else {
-                    /** @var EntityDoAbstract $value */
-                    $result[$index] = $value->toUnderscoredArray([], $removeNulls);
+                    if ($value instanceof EntityDoAbstract) {
+                        $result[$index] = $value->toUnderscoredArray([], $removeNulls);
+                    } else {
+                        $result[$index] = $value;
+                    }
                 }
             } else {
                 $result[$index] = $value;
@@ -147,5 +161,59 @@ class EntityDoAbstract {
         }
 
         return $result;
+    }
+
+    /**
+     * Replaces all not set values in the entity with NULLs
+     *
+     * @return static
+     */
+    public function notSetsToNull()
+    {
+        foreach ($this->getProperties() as $property) {
+            if ($this->$property instanceof NotSetValue) {
+                $this->$property = null;
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * Sets all properties of the entity to the special NotSetValue
+     *
+     * @return void
+     */
+    protected function setAllPropertiesToNotSet()
+    {
+        $notSetValue = new NotSetValue();
+
+        foreach ($this->getProperties() as $property) {
+            if (null === $this->$property) {
+                $this->$property = $notSetValue;
+            }
+        }
+    }
+
+    /**
+     * Returns the list of properties that are sent to Vend
+     *
+     * @return array
+     */
+    protected function getProperties()
+    {
+        $properties = [];
+
+        $ignoredProperties = array_merge($this->ignoredProperties, ['subEntities', 'ignoredProperties']);
+
+        foreach (get_object_vars($this) as $propertyName => $value) {
+            if (in_array($propertyName, $ignoredProperties)) {
+                continue;
+            }
+
+            $properties[] = $propertyName;
+        }
+
+        return $properties;
     }
 }

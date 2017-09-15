@@ -26,7 +26,7 @@ class RegisterSales extends V0ApiAbstract
 
         $result = $this->sendRequest($request, $requestType);
 
-        return new RegisterSale($result['register_sale'], RegisterSale::UNKNOWN_PROPERTY_IGNORE);
+        return new RegisterSale($result['register_sale'], RegisterSale::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     public function createReturn(RegisterSale $registerSale)

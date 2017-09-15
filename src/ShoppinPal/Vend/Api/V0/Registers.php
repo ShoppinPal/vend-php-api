@@ -26,7 +26,7 @@ class Registers extends V0ApiAbstract
         $registers = [];
 
         foreach ($result['registers'] as $register) {
-            $registers[] = new Register($register, Register::UNKNOWN_PROPERTY_IGNORE);
+            $registers[] = new Register($register, Register::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return $registers;

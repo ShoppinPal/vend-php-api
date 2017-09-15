@@ -54,7 +54,7 @@ class Products extends V2ApiAbstract
         $products = [];
 
         foreach ($result['data'] as $product) {
-            $products[] = new Product($product, Product::UNKNOWN_PROPERTY_IGNORE);
+            $products[] = new Product($product, Product::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(
@@ -79,7 +79,7 @@ class Products extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'product get');
 
-        return new Product($result['data'], Product::UNKNOWN_PROPERTY_IGNORE);
+        return new Product($result['data'], Product::UNKNOWN_PROPERTY_IGNORE, true);
 
     }
 }

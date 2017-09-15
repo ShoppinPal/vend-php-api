@@ -74,7 +74,7 @@ class Products extends V0ApiAbstract
         $products = [];
 
         foreach ($result['products'] as $product) {
-            $products[] = new Product($product, Product::UNKNOWN_PROPERTY_IGNORE);
+            $products[] = new Product($product, Product::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         if (!isset($result['pagination'])) {
@@ -111,7 +111,7 @@ class Products extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'product get');
 
-        return new Product($result['products'], Product::UNKNOWN_PROPERTY_IGNORE);
+        return new Product($result['products'], Product::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**
@@ -133,7 +133,7 @@ class Products extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'product create');
 
-        return new Product($result['product'], Product::UNKNOWN_PROPERTY_IGNORE);
+        return new Product($result['product'], Product::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**
@@ -158,7 +158,7 @@ class Products extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'product update');
 
-        return new Product($result['product'], Product::UNKNOWN_PROPERTY_IGNORE);
+        return new Product($result['product'], Product::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**

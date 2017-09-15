@@ -53,7 +53,7 @@ class PaymentTypes extends V2ApiAbstract
         $paymentTypes = [];
 
         foreach ($result['data'] as $paymentType) {
-            $paymentTypes[] = new PaymentType($paymentType, PaymentType::UNKNOWN_PROPERTY_IGNORE);
+            $paymentTypes[] = new PaymentType($paymentType, PaymentType::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(

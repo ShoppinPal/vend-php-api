@@ -70,7 +70,7 @@ class Customers extends V0ApiAbstract
         $customers = [];
 
         foreach ($result['customers'] as $customer) {
-            $customers[] = new Customer($customer, Customer::UNKNOWN_PROPERTY_IGNORE);
+            $customers[] = new Customer($customer, Customer::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         if (!isset($result['pagination'])) {
@@ -110,7 +110,7 @@ class Customers extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'customer create');
 
-        return new Customer($result['customer'], Customer::UNKNOWN_PROPERTY_IGNORE);
+        return new Customer($result['customer'], Customer::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**
@@ -134,6 +134,6 @@ class Customers extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'customer update');
 
-        return new Customer($result['customer'], Customer::UNKNOWN_PROPERTY_IGNORE);
+        return new Customer($result['customer'], Customer::UNKNOWN_PROPERTY_IGNORE, true);
     }
 }

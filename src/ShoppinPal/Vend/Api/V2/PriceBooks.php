@@ -54,7 +54,7 @@ class PriceBooks extends V2ApiAbstract
         $priceBooks = [];
 
         foreach ($result['data'] as $priceBook) {
-            $priceBooks[] = new PriceBook($priceBook, PriceBook::UNKNOWN_PROPERTY_IGNORE);
+            $priceBooks[] = new PriceBook($priceBook, PriceBook::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(
@@ -78,7 +78,7 @@ class PriceBooks extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'price book get');
 
-        return new PriceBook($result['data']);
+        return new PriceBook($result['data'], PriceBook::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**
@@ -97,6 +97,6 @@ class PriceBooks extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'price book create');
 
-        return new PriceBook($result['data'], PriceBook::UNKNOWN_PROPERTY_IGNORE);
+        return new PriceBook($result['data'], PriceBook::UNKNOWN_PROPERTY_IGNORE, true);
     }
 }

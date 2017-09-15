@@ -23,6 +23,6 @@ class Versions extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'versions get');
 
-        return new Version($result['data'], Version::UNKNOWN_PROPERTY_IGNORE);
+        return new Version($result['data'], Version::UNKNOWN_PROPERTY_IGNORE, true);
     }
 }

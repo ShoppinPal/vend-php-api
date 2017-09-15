@@ -26,7 +26,7 @@ class Taxes extends V0ApiAbstract
         $taxes = [];
 
         foreach ($result['taxes'] as $tax) {
-            $taxes[] = new Tax($tax, Tax::UNKNOWN_PROPERTY_IGNORE);
+            $taxes[] = new Tax($tax, Tax::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return $taxes;
@@ -47,6 +47,6 @@ class Taxes extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'tax create');
 
-        return new Tax($result['tax'], Tax::UNKNOWN_PROPERTY_IGNORE);
+        return new Tax($result['tax'], Tax::UNKNOWN_PROPERTY_IGNORE, true);
     }
 }

@@ -54,7 +54,7 @@ class Registers extends V2ApiAbstract
         $registers = [];
 
         foreach ($result['data'] as $register) {
-            $registers[] = new Register($register, Register::UNKNOWN_PROPERTY_IGNORE);
+            $registers[] = new Register($register, Register::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(
@@ -78,6 +78,6 @@ class Registers extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'register get');
 
-        return new Register($result['data']);
+        return new Register($result['data'], Register::UNKNOWN_PROPERTY_IGNORE, true);
     }
 }

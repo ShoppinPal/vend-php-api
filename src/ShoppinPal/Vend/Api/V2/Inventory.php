@@ -47,7 +47,7 @@ class Inventory extends V2ApiAbstract
         $inventory = [];
 
         foreach ($result['data'] as $inventoryRecord) {
-            $inventory[] = new InventoryEntity($inventoryRecord, InventoryEntity::UNKNOWN_PROPERTY_IGNORE);
+            $inventory[] = new InventoryEntity($inventoryRecord, InventoryEntity::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(

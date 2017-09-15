@@ -54,7 +54,7 @@ class Outlets extends V2ApiAbstract
         $outlets = [];
 
         foreach ($result['data'] as $outlet) {
-            $outlets[] = new Outlet($outlet, Outlet::UNKNOWN_PROPERTY_IGNORE);
+            $outlets[] = new Outlet($outlet, Outlet::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(
@@ -78,6 +78,6 @@ class Outlets extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'outlet get');
 
-        return new Outlet($result['data']);
+        return new Outlet($result['data'], Outlet::UNKNOWN_PROPERTY_IGNORE, true);
     }
 }

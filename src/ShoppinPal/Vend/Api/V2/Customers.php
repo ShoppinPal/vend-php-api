@@ -54,7 +54,7 @@ class Customers extends V2ApiAbstract
         $customers = [];
 
         foreach ($result['data'] as $customer) {
-            $customers[] = new Customer($customer, Customer::UNKNOWN_PROPERTY_IGNORE);
+            $customers[] = new Customer($customer, Customer::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(
@@ -79,7 +79,7 @@ class Customers extends V2ApiAbstract
 
         $result = $this->sendRequest($request, 'customer get');
 
-        return new Customer($result['data'], Customer::UNKNOWN_PROPERTY_IGNORE);
+        return new Customer($result['data'], Customer::UNKNOWN_PROPERTY_IGNORE, true);
 
     }
 
@@ -103,11 +103,14 @@ class Customers extends V2ApiAbstract
             'version',
         ];
 
-        $request->setPayload(json_encode($customer->toUnderscoredArray($ignoredProperties)), CurlHttpRequest::PAYLOAD_TYPE_RAW);
+        $request->setPayload(
+            json_encode($customer->toUnderscoredArray($ignoredProperties)),
+            CurlHttpRequest::PAYLOAD_TYPE_RAW
+        );
 
         $result = $this->sendRequest($request, 'customer create');
 
-        return new Customer($result['data'], Customer::UNKNOWN_PROPERTY_IGNORE);
+        return new Customer($result['data'], Customer::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**
@@ -133,11 +136,14 @@ class Customers extends V2ApiAbstract
             'version',
         ];
 
-        $request->setPayload(json_encode($customer->toUnderscoredArray($ignoredProperties)), CurlHttpRequest::PAYLOAD_TYPE_RAW);
+        $request->setPayload(
+            json_encode($customer->toUnderscoredArray($ignoredProperties)),
+            CurlHttpRequest::PAYLOAD_TYPE_RAW
+        );
 
         $result = $this->sendRequest($request, 'customer update');
 
-        return new Customer($result['data'], Customer::UNKNOWN_PROPERTY_IGNORE);
+        return new Customer($result['data'], Customer::UNKNOWN_PROPERTY_IGNORE, true);
 
     }
 

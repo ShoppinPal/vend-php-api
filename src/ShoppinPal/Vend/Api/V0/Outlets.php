@@ -26,7 +26,7 @@ class Outlets extends V0ApiAbstract
         $outlets = [];
 
         foreach ($result['outlets'] as $outlet) {
-            $outlets[] = new Outlet($outlet, Outlet::UNKNOWN_PROPERTY_IGNORE);
+            $outlets[] = new Outlet($outlet, Outlet::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return $outlets;

@@ -18,7 +18,7 @@ class Webhooks extends V0ApiAbstract
         $webhooks = [];
 
         foreach ($result as $webhook) {
-            $webhooks[] = new Webhook($webhook, Webhook::UNKNOWN_PROPERTY_IGNORE);
+            $webhooks[] = new Webhook($webhook, Webhook::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return $webhooks;
@@ -31,7 +31,7 @@ class Webhooks extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'webhook get');
 
-        return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE);
+        return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE, true);
 
     }
 
@@ -50,7 +50,7 @@ class Webhooks extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'webhook create');
 
-        return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE);
+        return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     public function update($webhookId, Webhook $webhook)
@@ -65,7 +65,7 @@ class Webhooks extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'webhook update');
 
-        return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE);
+        return new Webhook($result, Webhook::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     public function delete($webhookId)

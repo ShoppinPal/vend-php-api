@@ -53,7 +53,7 @@ class Sales extends V2ApiAbstract
         $sales = [];
 
         foreach ($result['data'] as $sale) {
-            $sales[] = new Sale($sale, Sale::UNKNOWN_PROPERTY_IGNORE);
+            $sales[] = new Sale($sale, Sale::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return new CollectionResult(

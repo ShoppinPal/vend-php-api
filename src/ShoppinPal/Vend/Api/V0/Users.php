@@ -25,7 +25,7 @@ class Users extends V0ApiAbstract
         $users = [];
 
         foreach ($result['users'] as $user) {
-            $users[] = new User($user, User::UNKNOWN_PROPERTY_IGNORE);
+            $users[] = new User($user, User::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return $users;

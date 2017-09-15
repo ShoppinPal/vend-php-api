@@ -35,7 +35,7 @@ class Suppliers extends V0ApiAbstract
         $suppliers = [];
 
         foreach ($result['suppliers'] as $supplier) {
-            $suppliers[] = new Supplier($supplier, Supplier::UNKNOWN_PROPERTY_IGNORE);
+            $suppliers[] = new Supplier($supplier, Supplier::UNKNOWN_PROPERTY_IGNORE, true);
         }
 
         return $suppliers;
@@ -57,7 +57,7 @@ class Suppliers extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'supplier get');
 
-        return new Supplier($result, Supplier::UNKNOWN_PROPERTY_IGNORE);
+        return new Supplier($result, Supplier::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**
@@ -110,7 +110,7 @@ class Suppliers extends V0ApiAbstract
 
         $result = $this->sendRequest($request, 'supplier ' . $action);
 
-        return new Supplier($result, Supplier::UNKNOWN_PROPERTY_IGNORE);
+        return new Supplier($result, Supplier::UNKNOWN_PROPERTY_IGNORE, true);
     }
 
     /**
