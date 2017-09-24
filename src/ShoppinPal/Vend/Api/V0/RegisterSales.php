@@ -17,6 +17,14 @@ class RegisterSales extends V0ApiAbstract
         return $this->doCreate($registerSale, 'register sale create');
     }
 
+    public function update($registerSaleId, RegisterSale $registerSale)
+    {
+        $modifiedSale = clone($registerSale);
+        // The V0 API uses the create method for updating
+        $registerSale->id = $modifiedSale;
+        return $this->doCreate($modifiedSale, 'register sale update');
+    }
+
     protected function doCreate(RegisterSale $registerSale, $requestType)
     {
         $request = $this->getAuthenticatedRequestForUri('api/register_sales');
