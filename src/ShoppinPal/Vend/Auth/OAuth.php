@@ -191,14 +191,21 @@ class OAuth
                 );
                 $additionalInfo = 'Status line: ' . $matches[0];
             }
-            throw new Exception('Error while sending the access token request. ' . $additionalInfo, 0, null, $result);
+            throw new Exception(
+                'Error while sending the access token request for domain prefix: ' . $domainPrefix
+                    . '. ' . $additionalInfo,
+                0,
+                null,
+                $result
+            );
         }
 
         $resultJson = json_decode($result->getResponseBody(), true);
 
         if (empty($resultJson)) {
             throw new Exception(
-                'Error while decoding JSON response from the access token request. Error: ' . json_last_error_msg(),
+                'Error while decoding JSON response from the access token request for domain prefix: ' . $domainPrefix
+                    . '. Error: ' . json_last_error_msg(),
                 0,
                 null,
                 $result
