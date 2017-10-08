@@ -34,7 +34,7 @@ abstract class CommunicationException extends \YapepBase\Exception\Exception
         $this->curlResult = $curlResult;
         $this->requestType = $requestType;
 
-        parent::__construct($message, $code, $previous, $data);
+        parent::__construct($message, $code, $previous, $data ?: $curlResult);
     }
 
     /**

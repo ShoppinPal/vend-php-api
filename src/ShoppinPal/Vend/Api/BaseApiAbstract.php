@@ -5,6 +5,7 @@ namespace ShoppinPal\Vend\Api;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Exception\CommunicationException;
 use ShoppinPal\Vend\Exception\EntityNotFoundException;
+use ShoppinPal\Vend\Exception\RateLimitingException;
 use YapepBase\Application;
 use YapepBase\Communication\CurlHttpRequest;
 
@@ -85,19 +86,32 @@ abstract class BaseApiAbstract
      *
      * @return array|null
      * @throws EntityNotFoundException
+     * @throws RateLimitingException
      * @throws CommunicationException
      */
     protected function sendRequest(CurlHttpRequest $request, $requestType)
     {
         $result = $request->send();
 
-        if (!$result->getError() && 404 == $result->getResponseCode()) {
-            throw new EntityNotFoundException('The specified entity can not be found', 404, null, $result);
-        }
-
         if (!$result->isRequestSuccessful()) {
+            if (!$result->getError()) {
+                switch ($result->getResponseCode()) {
+                    case 404:
+                        throw new EntityNotFoundException('The specified entity can not be found', 404, null, $result);
+
+                    case 429:
+                        throw new RateLimitingException(
+                            $requestType,
+                            $result,
+                            'Your access to the API has been rate limited',
+                            429,
+                            null
+                        );
+                }
+            }
+
             $exceptionClass = $this->getCommunicationExceptionClass();
-            throw new $exceptionClass($requestType, $result, 0, null, $result);
+            throw new $exceptionClass($requestType, $result, 0, null);
         }
 
         if (204 == $result->getResponseCode()) {
@@ -108,7 +122,7 @@ abstract class BaseApiAbstract
 
         if (empty($resultData)) {
             $exceptionClass = $this->getCommunicationExceptionClass();
-            throw new $exceptionClass($requestType, $result, 0, null, $result);
+            throw new $exceptionClass($requestType, $result, 0, null);
         }
 
         return $resultData;
