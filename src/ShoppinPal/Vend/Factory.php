@@ -20,6 +20,7 @@ use ShoppinPal\Vend\Api\V2\PriceBooks as PriceBooksV2;
 use ShoppinPal\Vend\Api\V2\Products as ProductsV2;
 use ShoppinPal\Vend\Api\V2\Registers as RegistersV2;
 use ShoppinPal\Vend\Api\V2\Sales as SalesV2;
+use ShoppinPal\Vend\Api\V2\Taxes as TaxesV2;
 use ShoppinPal\Vend\Api\V2\Versions as VersionsV2;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
@@ -340,6 +341,9 @@ class Factory
         switch ($version) {
             case self::API_VERSION_0:
                 return new TaxesV0($this->getAuthHelper(), $this->getDomainPrefix());
+
+            case self::API_VERSION_2:
+                return new TaxesV2($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
                 throw new ParameterException('Unknown version: ' . $version);
