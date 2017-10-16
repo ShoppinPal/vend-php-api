@@ -21,7 +21,7 @@ class Consignment extends EntityDoAbstract
 
     protected $subEntities = [
         'filters' => [
-            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_TYPE  => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => ConsignmentFilter::class,
         ],
     ];
