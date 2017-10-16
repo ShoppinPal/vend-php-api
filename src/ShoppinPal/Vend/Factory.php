@@ -12,6 +12,7 @@ use ShoppinPal\Vend\Api\V0\Suppliers as SuppliersV0;
 use ShoppinPal\Vend\Api\V0\Taxes as TaxesV0;
 use ShoppinPal\Vend\Api\V0\Users as UsersV0;
 use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
+use ShoppinPal\Vend\Api\V2\Consignments as ConsignmentsV2;
 use ShoppinPal\Vend\Api\V2\Customers as CustomersV2;
 use ShoppinPal\Vend\Api\V2\Inventory as InventoryV2;
 use ShoppinPal\Vend\Api\V2\Outlets as OutletsV2;
@@ -25,6 +26,7 @@ use ShoppinPal\Vend\Api\V2\Versions as VersionsV2;
 use ShoppinPal\Vend\Auth\AuthHelper;
 use ShoppinPal\Vend\Auth\OAuth;
 use YapepBase\Config;
+use YapepBase\Exception\ConfigException;
 use YapepBase\Exception\ParameterException;
 
 /**
@@ -96,6 +98,27 @@ class Factory
     protected function getDomainPrefix()
     {
         return DiHelper::getInstance()->getDomainPrefix();
+    }
+
+    /**
+     * Returns a Consignments API handler.
+     *
+     * @param string $version   The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return ConsignmentsV2
+     *
+     * @throws ParameterException   If the version is invalid.
+     * @throws ConfigException      If the required configuration params are not set.
+     */
+    public function getConsignmentsApi($version)
+    {
+        switch ($version) {
+            case self::API_VERSION_2:
+                return new ConsignmentsV2($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
     }
 
     /**
