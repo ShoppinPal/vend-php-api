@@ -30,21 +30,7 @@ class Products extends V2ApiAbstract
         $includeDeleted = false
     )
     {
-        $params = [
-            'page_size' => $pageSize,
-        ];
-
-        if (!empty($before)) {
-            $params['before'] = $before;
-        }
-
-        if (!empty($after)) {
-            $params['after'] = $after;
-        }
-
-        if ($includeDeleted) {
-            $params['deleted'] = 1;
-        }
+        $params = $this->getCollectionGetterParams($pageSize, $before, $after, $includeDeleted);
 
         $request = $this->getAuthenticatedRequestForUri('api/2.0/products', $params);
         $request->setMethod(CurlHttpRequest::METHOD_GET);

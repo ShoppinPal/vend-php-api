@@ -13,4 +13,33 @@ abstract class V2ApiAbstract extends BaseApiAbstract
         return V2CommunicationException::class;
     }
 
+    /**
+     * @param int   $pageSize
+     * @param int   $beforeVersion
+     * @param int   $afterVersion
+     * @param bool $includeDeleted
+     *
+     * @return array
+     */
+    protected function getCollectionGetterParams($pageSize, $beforeVersion, $afterVersion, $includeDeleted = false)
+    {
+        $params = [
+            'page_size' => $pageSize,
+        ];
+
+        if (!empty($beforeVersion)) {
+            $params['before'] = $beforeVersion;
+        }
+
+        if (!empty($afterVersion)) {
+            $params['after'] = $afterVersion;
+        }
+
+        if ($includeDeleted) {
+            $params['deleted'] = 1;
+        }
+
+        return $params;
+    }
+
 }

@@ -27,17 +27,7 @@ class Inventory extends V2ApiAbstract
         $after = null
     )
     {
-        $params = [
-            'page_size' => $pageSize,
-        ];
-
-        if (!empty($before)) {
-            $params['before'] = $before;
-        }
-
-        if (!empty($after)) {
-            $params['after'] = $after;
-        }
+        $params = $this->getCollectionGetterParams($pageSize, $before, $after);
 
         $request = $this->getAuthenticatedRequestForUri('api/2.0/inventory', $params, true);
         $request->setMethod(CurlHttpRequest::METHOD_GET);
