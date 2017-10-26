@@ -28,7 +28,7 @@ class RateLimitingException extends CommunicationException
             throw new Exception('No retry-after in response body: ' . $responseBody);
         }
 
-        $retryAfter = DateTime::createFromFormat(DateTime::RFC822, $decodedBody['retry-after']);
+        $retryAfter = DateTime::createFromFormat(DateTime::RSS, $decodedBody['retry-after']);
 
         if (empty($retryAfter)) {
             throw new Exception('Unable to parse date from retry-after string: ' . $decodedBody['retry-after']);
