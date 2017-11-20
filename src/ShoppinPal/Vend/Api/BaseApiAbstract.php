@@ -155,7 +155,7 @@ abstract class BaseApiAbstract
     }
 
     /**
-     * Retuns the fully qualified class name of the communication exception to be thrown
+     * Returns the fully qualified class name of the communication exception to be thrown
      *
      * @return string
      */
