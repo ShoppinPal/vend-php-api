@@ -38,11 +38,11 @@ class Outlet extends EntityDoAbstract
 
     public $physicalCity;
 
-    public $phyisicalPostCode;
+    public $physicalPostcode;
 
     public $physicalState;
 
-    public $phyisicalCountryId;
+    public $physicalCountryId;
 
     public $deletedAt;
 

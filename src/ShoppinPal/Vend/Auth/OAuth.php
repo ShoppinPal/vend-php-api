@@ -3,6 +3,7 @@ namespace ShoppinPal\Vend\Auth;
 
 use YapepBase\Application;
 use YapepBase\Communication\CurlHttpRequest;
+use YapepBase\Config;
 use YapepBase\Exception\Exception;
 
 /**
@@ -170,7 +171,7 @@ class OAuth
      */
     protected function sendVendTokenRequest($domainPrefix, array $params)
     {
-        $url = 'https://' . $domainPrefix . '.vendhq.com/api/1.0/token';
+        $url = $this->getUrl($domainPrefix);
 
         $request = Application::getInstance()->getDiContainer()->getCurlHttpRequest();
         $request->setMethod(CurlHttpRequest::METHOD_POST);
@@ -213,5 +214,27 @@ class OAuth
         }
 
         return new OAuthResponseDo($resultJson);
+    }
+
+    /**
+     * Returns the URL to call.
+     *
+     * @param string $domainPrefix
+     *
+     * @return string
+     */
+    protected function getUrl($domainPrefix)
+    {
+        $vendUrl = Config::getInstance()->get('resource.vend.url', '');
+        $uri     = '/api/1.0/token';
+
+        if (empty($vendUrl)) {
+            $url = 'https://' . $domainPrefix . '.vendhq.com' . $uri;
+        }
+        else {
+            $url = rtrim($vendUrl, '/') . $uri;
+        }
+
+        return $url;
     }
 }

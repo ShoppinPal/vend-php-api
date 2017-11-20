@@ -8,6 +8,7 @@ use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use ShoppinPal\Vend\Exception\RateLimitingException;
 use YapepBase\Application;
 use YapepBase\Communication\CurlHttpRequest;
+use YapepBase\Config;
 
 /**
  * Base class for the API handlers.
@@ -49,6 +50,36 @@ abstract class BaseApiAbstract
     }
 
     /**
+     * Returns the URL to call.
+     *
+     * @param string $path     The URI for the request.
+     * @param array  $params   The GET params for the request as an associative array.
+     *
+     * @return string
+     */
+    protected function getUrl($path, array $params)
+    {
+        $vendUrl     = Config::getInstance()->get('resource.vend.url', '');
+        $uri         = ltrim($path, '/');
+        $queryString = empty($params) ? '' : ('?' . http_build_query($params));
+
+        if (empty($vendUrl)) {
+            $url =  sprintf(
+                'https://%s.vendhq.com/%s%s',
+                $this->domainPrefix,
+                $path,
+                $queryString
+            );
+        }
+        else {
+            $vendUrl = rtrim($vendUrl, '/') . '/';
+            $url     = $vendUrl . $uri . $queryString;
+        }
+
+        return $url;
+    }
+
+    /**
      * Returns an authenticated CURL request to the Vend store with the specified path with the passed GET params.
      *
      * @param string $path            The URI for the request.
@@ -59,12 +90,7 @@ abstract class BaseApiAbstract
      */
     protected function getAuthenticatedRequestForUri($path, array $params = [], $skipContentType = false)
     {
-        $url =  sprintf(
-            'https://%s.vendhq.com/%s%s',
-            $this->domainPrefix,
-            ltrim($path, '/'),
-            empty($params) ? '' : ('?' . http_build_query($params))
-        );
+        $url =  $this->getUrl($path, $params);
         
         $request = Application::getInstance()->getDiContainer()->getCurlHttpRequest();
         $request->setUrl($url);
@@ -78,7 +104,7 @@ abstract class BaseApiAbstract
     }
 
     /**
-     * Sends the request to Vend, and reutrns the decoded JSON data from the response.
+     * Sends the request to Vend, and returns the decoded JSON data from the response.
      *
      * @param CurlHttpRequest $request The request to send.
      *
