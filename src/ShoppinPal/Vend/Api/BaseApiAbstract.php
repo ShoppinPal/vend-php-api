@@ -60,7 +60,7 @@ abstract class BaseApiAbstract
     protected function getUrl($path, array $params)
     {
         $vendUrl     = Config::getInstance()->get('resource.vend.url', '');
-        $uri         = ltrim($path, '/');
+        $path        = ltrim($path, '/');
         $queryString = empty($params) ? '' : ('?' . http_build_query($params));
 
         if (empty($vendUrl)) {
@@ -73,7 +73,7 @@ abstract class BaseApiAbstract
         }
         else {
             $vendUrl = rtrim($vendUrl, '/') . '/';
-            $url     = $vendUrl . $uri . $queryString;
+            $url     = $vendUrl . $path . $queryString;
         }
 
         return $url;
