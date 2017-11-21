@@ -57,4 +57,23 @@ class RegisterSales extends V0ApiAbstract
 
         return $this->doCreate($modifiedRegisterSale, 'register sale return update');
     }
+
+    /**
+     * Returns the Register Sale, that matches this ID.
+     *
+     * @param string $registerSaleId ID of the sale.
+     *
+     * @return RegisterSale
+     *
+     * @throws EntityNotFoundException If the sale is not found.
+     */
+    public function get($registerSaleId)
+    {
+        $request = $this->getAuthenticatedRequestForUri('api/register_sales/' . urlencode($saleId));
+        $request->setMethod(CurlHttpRequest::METHOD_GET);
+
+        $result = $this->sendRequest($request, 'register sale get');
+
+        return $result['register_sales'];
+    }
 }
