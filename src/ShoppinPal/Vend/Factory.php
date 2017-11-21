@@ -68,12 +68,10 @@ class Factory
      */
     public function getOAuth()
     {
-        $config = Config::getInstance();
-
         return new OAuth(
-            $config->get('resource.vend.oauth.clientId'),
-            $config->get('resource.vend.oauth.clientSecret'),
-            $config->get('resource.vend.oauth.redirectUri')
+            $this->config->get('resource.vend.oauth.clientId'),
+            $this->config->get('resource.vend.oauth.clientSecret'),
+            $this->config->get('resource.vend.oauth.redirectUri')
         );
     }
 
