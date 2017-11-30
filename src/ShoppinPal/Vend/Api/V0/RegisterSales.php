@@ -69,7 +69,7 @@ class RegisterSales extends V0ApiAbstract
      */
     public function get($registerSaleId)
     {
-        $request = $this->getAuthenticatedRequestForUri('api/register_sales/' . urlencode($saleId));
+        $request = $this->getAuthenticatedRequestForUri('api/register_sales/' . urlencode($registerSaleId));
         $request->setMethod(CurlHttpRequest::METHOD_GET);
 
         $result = $this->sendRequest($request, 'register sale get');
