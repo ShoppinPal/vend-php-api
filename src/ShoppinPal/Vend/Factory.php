@@ -13,6 +13,7 @@ use ShoppinPal\Vend\Api\V0\Taxes as TaxesV0;
 use ShoppinPal\Vend\Api\V0\Users as UsersV0;
 use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
 use ShoppinPal\Vend\Api\V2\Consignments as ConsignmentsV2;
+use ShoppinPal\Vend\Api\V2\CustomerGroups as CustomerGroupsV2;
 use ShoppinPal\Vend\Api\V2\Customers as CustomersV2;
 use ShoppinPal\Vend\Api\V2\Inventory as InventoryV2;
 use ShoppinPal\Vend\Api\V2\Outlets as OutletsV2;
@@ -120,6 +121,27 @@ class Factory
     }
 
     /**
+     * Returns a Customer Groups API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return CustomerGroupsV2
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getCustomerGroupsApi($version)
+    {
+        switch ($version) {
+            case self::API_VERSION_2:
+                return new CustomerGroupsV2($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
      * Returns a Customers API handler.
      *
      * @param string $version The version to use. {@uses self::API_VERSION_*}
@@ -134,7 +156,7 @@ class Factory
         switch ($version) {
             case self::API_VERSION_0:
                 return new CustomersV0($this->getAuthHelper(), $this->getDomainPrefix());
-            
+
             case self::API_VERSION_2:
                 return new CustomersV2($this->getAuthHelper(), $this->getDomainPrefix());
 
