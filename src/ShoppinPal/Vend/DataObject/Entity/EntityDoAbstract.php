@@ -4,6 +4,7 @@ namespace ShoppinPal\Vend\DataObject\Entity;
 
 use ShoppinPal\Vend\Helper\StringHelper;
 use YapepBase\Exception\ParameterException;
+use YapepBase\DataObject\NotSetValue;
 
 /**
  * Base class for entity DOs
