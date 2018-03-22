@@ -11,6 +11,10 @@ class Supplier extends EntityDoAbstract
 
     public $name;
 
+    public $source;
+
+    public $description;
+
     public $deletedAt;
 
     public $version;
