@@ -12,6 +12,7 @@ use ShoppinPal\Vend\Api\V0\Suppliers as SuppliersV0;
 use ShoppinPal\Vend\Api\V0\Taxes as TaxesV0;
 use ShoppinPal\Vend\Api\V0\Users as UsersV0;
 use ShoppinPal\Vend\Api\V0\Webhooks as WebhooksV0;
+use ShoppinPal\Vend\Api\V2\Brands as BrandsV2;
 use ShoppinPal\Vend\Api\V2\Consignments as ConsignmentsV2;
 use ShoppinPal\Vend\Api\V2\CustomerGroups as CustomerGroupsV2;
 use ShoppinPal\Vend\Api\V2\Customers as CustomersV2;
@@ -98,6 +99,27 @@ class Factory
     protected function getDomainPrefix()
     {
         return DiHelper::getInstance()->getDomainPrefix();
+    }
+
+    /**
+     * Returns a Brands API handler.
+     *
+     * @param string $version   The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return BrandsV2
+     *
+     * @throws ParameterException   If the version is invalid.
+     * @throws ConfigException      If the required configuration params are not set.
+     */
+    public function getBrandsApi($version)
+    {
+        switch ($version) {
+            case self::API_VERSION_2:
+                return new BrandsV2($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
     }
 
     /**
