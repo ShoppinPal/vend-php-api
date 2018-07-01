@@ -17,7 +17,11 @@ class Register extends EntityDoAbstract
 
     public $askForNoteOnSale;
 
+    public $printNoteOnReceipt;
+
     public $showDiscountsOnReceipts;
+
+    public $receiptTemplateId;
 
     public $printReceipt;
 

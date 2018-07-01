@@ -70,4 +70,6 @@ class SaleLineItem extends EntityDoAbstract
     public $totalPrice;
 
     public $totalTax;
+
+    public $isReturn;
 }

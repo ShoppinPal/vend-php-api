@@ -43,6 +43,10 @@ class Sale extends EntityDoAbstract
 
     public $invoiceNumber;
 
+    public $source;
+
+    public $sourceId;
+
     public $status;
 
     public $note;

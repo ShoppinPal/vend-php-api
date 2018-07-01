@@ -44,6 +44,8 @@ class Outlet extends EntityDoAbstract
 
     public $physicalCountryId;
 
+    public $email;
+
     public $deletedAt;
 
     public $version;

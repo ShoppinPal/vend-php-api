@@ -35,6 +35,10 @@ class Customer extends EntityDoAbstract
 
     public $companyName;
 
+    public $doNotEmail;
+
+    public $loyaltyEmailSent;
+
     public $phone;
 
     public $mobile;
