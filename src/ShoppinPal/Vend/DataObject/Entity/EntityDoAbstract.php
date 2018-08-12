@@ -65,44 +65,7 @@ class EntityDoAbstract {
         }
 
         foreach ($data as $key => $value) {
-            $propertyName= StringHelper::underScoreToCamel($key);
-
-            if (!property_exists($this, $propertyName)) {
-                $errorMessage = 'Unknown property "' . $propertyName . '" while constructing DO "' . get_class($this) . '".';
-                switch ($unknownPropertyHandling) {
-                    case self::UNKNOWN_PROPERTY_IGNORE:
-                        // Ignore the issue
-                        break;
-
-                    case self::UNKNOWN_PROPERTY_NOTICE:
-                        trigger_error($errorMessage, E_USER_NOTICE);
-                        break;
-
-                    case self::UNKNOWN_PROPERTY_THROW:
-                    default:
-                        throw new ParameterException($errorMessage);
-                }
-            }
-
-            if (array_key_exists($propertyName, $this->subEntities)) {
-                $className = $this->subEntities[$propertyName][self::SUB_ENTITY_KEY_CLASS];
-
-                if ($this->subEntities[$propertyName][self::SUB_ENTITY_KEY_TYPE] == self::SUB_ENTITY_TYPE_COLLECTION) {
-                    if (is_array($value)) {
-                        $tmpValue = [];
-                        foreach ($value as $subEntity) {
-                            $tmpValue[] = new $className($subEntity, $unknownPropertyHandling);
-                        }
-                    } else {
-                        $tmpValue = null;
-                    }
-                    $this->$propertyName = $tmpValue;
-                } else {
-                    $this->$propertyName = null === $value ? null : new $className($value, $unknownPropertyHandling);
-                }
-            } else {
-                $this->$propertyName = $value;
-            }
+            $this->setProperty($key, $value, $unknownPropertyHandling);
         }
     }
 
@@ -112,6 +75,7 @@ class EntityDoAbstract {
      * Properties defined in the entity, that are marked to be ignored will never be included.
      *
      * @param array $ignoredProperties Properties listed in this array will not be included.
+     * @param bool  $removeNulls       If TRUE, null values will be removed from the entity.
      *
      * @return array
      */
@@ -216,5 +180,57 @@ class EntityDoAbstract {
         }
 
         return $properties;
+    }
+
+    /**
+     * @param string $key
+     * @param mixed  $value
+     * @param string $unknownPropertyHandling
+     *
+     * @return void
+     * @throws ParameterException
+     */
+    protected function setProperty($key, $value, $unknownPropertyHandling = self::UNKNOWN_PROPERTY_THROW)
+    {
+        $propertyName = StringHelper::underScoreToCamel($key);
+
+        if (!property_exists($this, $propertyName)) {
+            $errorMessage = 'Unknown property "' . $propertyName . '" while constructing DO "' . get_class(
+                    $this
+                ) . '".';
+            switch ($unknownPropertyHandling) {
+                case self::UNKNOWN_PROPERTY_IGNORE:
+                    // Ignore the issue
+                    break;
+
+                case self::UNKNOWN_PROPERTY_NOTICE:
+                    trigger_error($errorMessage, E_USER_NOTICE);
+                    break;
+
+                case self::UNKNOWN_PROPERTY_THROW:
+                default:
+                    throw new ParameterException($errorMessage);
+            }
+        }
+
+        if (array_key_exists($propertyName, $this->subEntities)) {
+            $className = $this->subEntities[$propertyName][self::SUB_ENTITY_KEY_CLASS];
+
+            if ($this->subEntities[$propertyName][self::SUB_ENTITY_KEY_TYPE] == self::SUB_ENTITY_TYPE_COLLECTION) {
+                if (is_array($value)) {
+                    $tmpValue = [];
+                    foreach ($value as $subEntity) {
+                        $tmpValue[] = new $className($subEntity, $unknownPropertyHandling);
+                    }
+                } else {
+                    $tmpValue = null;
+                }
+                $this->$propertyName = $tmpValue;
+            } else {
+                $this->$propertyName = null === $value ? null : new $className($value, $unknownPropertyHandling);
+            }
+        } else {
+            $this->$propertyName = $value;
+        }
     }
 }
