@@ -195,22 +195,7 @@ class EntityDoAbstract {
         $propertyName = StringHelper::underScoreToCamel($key);
 
         if (!property_exists($this, $propertyName)) {
-            $errorMessage = 'Unknown property "' . $propertyName . '" while constructing DO "' . get_class(
-                    $this
-                ) . '".';
-            switch ($unknownPropertyHandling) {
-                case self::UNKNOWN_PROPERTY_IGNORE:
-                    // Ignore the issue
-                    break;
-
-                case self::UNKNOWN_PROPERTY_NOTICE:
-                    trigger_error($errorMessage, E_USER_NOTICE);
-                    break;
-
-                case self::UNKNOWN_PROPERTY_THROW:
-                default:
-                    throw new ParameterException($errorMessage);
-            }
+            $this->handleMissingProperty($propertyName, $unknownPropertyHandling);
         }
 
         if (array_key_exists($propertyName, $this->subEntities)) {
@@ -231,6 +216,33 @@ class EntityDoAbstract {
             }
         } else {
             $this->$propertyName = $value;
+        }
+    }
+
+    /**
+     *
+     *
+     * @param string $propertyName
+     * @param string $unknownPropertyHandling
+     *
+     * @return void
+     * @throws ParameterException
+     */
+    protected function handleMissingProperty($propertyName, $unknownPropertyHandling)
+    {
+        $errorMessage = 'Unknown property "' . $propertyName . '" while constructing DO "' . get_class($this) . '".';
+        switch ($unknownPropertyHandling) {
+            case self::UNKNOWN_PROPERTY_IGNORE:
+                // Ignore the issue
+                break;
+
+            case self::UNKNOWN_PROPERTY_NOTICE:
+                trigger_error($errorMessage, E_USER_NOTICE);
+                break;
+
+            case self::UNKNOWN_PROPERTY_THROW:
+            default:
+                throw new ParameterException($errorMessage);
         }
     }
 }

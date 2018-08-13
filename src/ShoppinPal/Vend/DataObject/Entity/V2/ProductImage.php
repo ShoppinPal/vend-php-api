@@ -22,13 +22,13 @@ class ProductImage extends EntityDoAbstract implements \ArrayAccess, \JsonSerial
         ],
     ];
 
+    /** @var string */
     public $id;
-
+    /** @var string */
     public $url;
-
     /** @var ProductImageSize */
     public $sizes;
-
+    /** @var int */
     public $version;
 
     protected function getValidOffsets()

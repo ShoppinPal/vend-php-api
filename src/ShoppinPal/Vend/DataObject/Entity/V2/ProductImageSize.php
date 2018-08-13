@@ -19,18 +19,19 @@ class ProductImageSize extends EntityDoAbstract implements \ArrayAccess, \JsonSe
         'standard',
     ];
 
+    /** @var string */
     public $sl;
-
+    /** @var string */
     public $sm;
-
+    /** @var string */
     public $ss;
-
+    /** @var string */
     public $st;
-
+    /** @var string */
     public $thumb;
-
+    /** @var string */
     public $original;
-
+    /** @var string */
     public $standard;
 
     protected function getValidOffsets()
