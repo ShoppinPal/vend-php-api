@@ -11,7 +11,8 @@
   "require": {
     "php":               ">=5.6",
     "ext-curl":          "*",
-    "szeber/yapep_base": "0.3.x-dev"
+    "szeber/yapep_base": "0.3.x-dev",
+    "ext-json": "*"
   },
   "require-dev": {
     "phpunit/phpunit":   "^5.1"

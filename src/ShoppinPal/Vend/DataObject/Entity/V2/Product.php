@@ -8,21 +8,25 @@ class Product extends EntityDoAbstract
 {
     protected $subEntities = [
         'type' => [
-            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_SINGLE,
+            self::SUB_ENTITY_KEY_TYPE  => self::SUB_ENTITY_TYPE_SINGLE,
             self::SUB_ENTITY_KEY_CLASS => ProductType::class,
         ],
         'brand' => [
-            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_SINGLE,
+            self::SUB_ENTITY_KEY_TYPE  => self::SUB_ENTITY_TYPE_SINGLE,
             self::SUB_ENTITY_KEY_CLASS => Brand::class,
         ],
         'supplier' => [
-            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_SINGLE,
+            self::SUB_ENTITY_KEY_TYPE  => self::SUB_ENTITY_TYPE_SINGLE,
             self::SUB_ENTITY_KEY_CLASS => Supplier::class,
         ],
         'variantOptions' => [
-            self::SUB_ENTITY_KEY_TYPE => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_TYPE  => self::SUB_ENTITY_TYPE_COLLECTION,
             self::SUB_ENTITY_KEY_CLASS => ProductVariantOption::class,
         ],
+        'images' => [
+            self::SUB_ENTITY_KEY_TYPE  => self::SUB_ENTITY_TYPE_COLLECTION,
+            self::SUB_ENTITY_KEY_CLASS => ProductImage::class,
+        ]
     ];
 
     public $id;
@@ -81,6 +85,7 @@ class Product extends EntityDoAbstract
 
     public $categories;
 
+    /** @var ProductImage[] */
     public $images;
 
     public $hasVariants;
