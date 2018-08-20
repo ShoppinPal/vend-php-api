@@ -4,7 +4,6 @@ namespace ShoppinPal\Vend\Api\V2;
 
 use ShoppinPal\Vend\DataObject\Entity\V2\CollectionResult;
 use ShoppinPal\Vend\DataObject\Entity\V2\Product;
-
 use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use YapepBase\Communication\CurlHttpRequest;
 
