@@ -4,6 +4,7 @@ namespace ShoppinPal\Vend\Api\V2;
 
 use ShoppinPal\Vend\DataObject\Entity\V2\CollectionResult;
 use ShoppinPal\Vend\DataObject\Entity\V2\Product;
+
 use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use YapepBase\Communication\CurlHttpRequest;
 
@@ -68,4 +69,33 @@ class Products extends V2ApiAbstract
         return new Product($result['data'], Product::UNKNOWN_PROPERTY_IGNORE, true);
 
     }
+
+    /**
+     * Returns the true, that update image.
+     *
+     * @param string $productId ID of the product.
+     * @param string $imagePath of the image.
+     *
+     * @return true
+     *
+     * @throws EntityNotFoundException If the product is not found.
+     */
+    public function imageUpload($productId, $imagePath)
+    {
+        $request = $this->getAuthenticatedRequestForUri('api/2.0/products/' . urlencode($productId) . '/actions/image_upload');
+
+        $request->setMethod(CurlHttpRequest::METHOD_POST);
+
+        $request->addHeader('Content-Type: multipart/form-data');
+
+        $request->setPayload(
+            json_encode(array("image"=>fopen($imagePath, 'r'))),
+            CurlHttpRequest::PAYLOAD_TYPE_RAW
+        );
+
+        $result = $this->sendRequest($request, 'product image upload');
+
+        return true;
+    }
+
 }
