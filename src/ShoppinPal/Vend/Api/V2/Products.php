@@ -73,13 +73,13 @@ class Products extends V2ApiAbstract
      * Returns the true, that update image.
      *
      * @param string $productId ID of the product.
-     * @param string $fileContent of the image.
+     * @param string $imageData of the image.
      *
      * @return true
      *
      * @throws EntityNotFoundException If the product is not found.
      */
-    public function imageUpload($productId, $fileContent)
+    public function imageUpload($productId, $imageData)
     {
         $request = $this->getAuthenticatedRequestForUri('api/2.0/products/' . urlencode($productId) . '/actions/image_upload');
 
@@ -87,9 +87,9 @@ class Products extends V2ApiAbstract
 
         $boundary = uniqid();
 
-        $request->addHeader('Content-Type: multipart/form-data; boundary=' . $boundary);
+        $request->addHeader("content-type: multipart/form-data; boundary=----".$boundary);
 
-        $body = "--" . $boundary . "\r\n" . "Content-Disposition: form-data; name='image'" . "\r\n" . $fileContent . "\r\n" . "__" . $boundary . "__";
+        $body = "------".$boundary."\r\n"."Content-Disposition: form-data; name=\"image\"; filename=\"upload-image.jpg\"\r\nContent-Type: application/octet-stream\r\n\r\n".$imageData."\r\n\r\n\r\n------".$boundary."--";
 
         $request->setPayload(
             $body,
