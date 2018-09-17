@@ -75,7 +75,7 @@ class Products extends V2ApiAbstract
      * @param string $productId ID of the product.
      * @param string $imageData of the image.
      *
-     * @return data
+     * @return ProductImageUpload
      *
      * @throws EntityNotFoundException If the product is not found.
      */

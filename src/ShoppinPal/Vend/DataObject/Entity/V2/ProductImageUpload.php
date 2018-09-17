@@ -6,18 +6,28 @@ use ShoppinPal\Vend\DataObject\Entity\EntityDoAbstract;
 
 class ProductImageUpload extends EntityDoAbstract
 {
-	/** @var string */
+	/**
+	* @var string
+	*/
     public $id;
 
-    /** @var string */
+    /**
+	* @var string
+	*/
     public $productId;
 
-    /** @var int */
+    /**
+	* @var int
+	*/
     public $position;
 
-    /** @var string */
+    /**
+	* @var string
+	*/
     public $status;
 
-    /** @var int */
+    /**
+	* @var int
+	*/
     public $version;
 }
