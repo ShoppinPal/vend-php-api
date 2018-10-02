@@ -68,4 +68,43 @@ class Products extends V2ApiAbstract
         return new Product($result['data'], Product::UNKNOWN_PROPERTY_IGNORE, true);
 
     }
+
+    /**
+     * Uploads the give image of given product and
+     * Return response of product image upload.
+     * @param string $productId ID of the product.
+     * @param string $imageData of the image.
+     *
+     * @return ProductImageUpload
+     *
+     * @throws EntityNotFoundException If the product is not found.
+     */
+    public function uploadImage($productId, $imageData)
+    {
+        $request = $this->getAuthenticatedRequestForUri('api/2.0/products/' . urlencode($productId) . '/actions/image_upload', [], true);
+
+        $request->setMethod(CurlHttpRequest::METHOD_POST);
+
+        $boundary = uniqid();
+
+        $request->addHeader("Content-Type: multipart/form-data; boundary=----".$boundary);
+
+        $eol = "\r\n";
+
+        $body = '------' . $boundary . $eol
+                . 'Content-Disposition: form-data; name="image"; filename="upload-image.jpg"' . $eol
+                . 'Content-Type: application/octet-stream' . $eol . $eol
+                . $imageData .$eol . $eol . $eol
+                . '------' . $boundary . '--';
+
+        $request->setPayload(
+            $body,
+            CurlHttpRequest::PAYLOAD_TYPE_RAW
+        );
+
+        $result = $this->sendRequest($request, 'product image upload');
+
+        return new ProductImageUpload($result['data'], ProductImageUpload::UNKNOWN_PROPERTY_IGNORE, true);
+    }
+
 }
