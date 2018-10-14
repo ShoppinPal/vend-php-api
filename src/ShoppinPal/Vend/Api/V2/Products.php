@@ -4,6 +4,7 @@ namespace ShoppinPal\Vend\Api\V2;
 
 use ShoppinPal\Vend\DataObject\Entity\V2\CollectionResult;
 use ShoppinPal\Vend\DataObject\Entity\V2\Product;
+use ShoppinPal\Vend\DataObject\Entity\V2\ProductImageUpload;
 use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use YapepBase\Communication\CurlHttpRequest;
 
@@ -70,37 +71,30 @@ class Products extends V2ApiAbstract
     }
 
     /**
-     * Uploads the give image of given product and
-     * Return response of product image upload.
-     * @param string $productId ID of the product.
-     * @param string $imageData of the image.
+     * Uploads the give image of given product and return response of product image upload.
+     *
+     * @param string $productId      Id of the product
+     * @param string $imageContent   Content of the image file.
      *
      * @return ProductImageUpload
      *
-     * @throws EntityNotFoundException If the product is not found.
+     * @throws EntityNotFoundException   If the product is not found.
      */
-    public function uploadImage($productId, $imageData)
+    public function uploadImage($productId, $imageContent)
     {
+        $boundary = uniqid();
+        $eol      = "\r\n";
+        $body     = '------' . $boundary . $eol
+            . 'Content-Disposition: form-data; name="image"; filename="upload-image.jpg"' . $eol
+            . 'Content-Type: application/octet-stream' . $eol . $eol
+            . $imageContent .$eol . $eol . $eol
+            . '------' . $boundary . '--';
+
         $request = $this->getAuthenticatedRequestForUri('api/2.0/products/' . urlencode($productId) . '/actions/image_upload', [], true);
 
         $request->setMethod(CurlHttpRequest::METHOD_POST);
-
-        $boundary = uniqid();
-
-        $request->addHeader("Content-Type: multipart/form-data; boundary=----".$boundary);
-
-        $eol = "\r\n";
-
-        $body = '------' . $boundary . $eol
-                . 'Content-Disposition: form-data; name="image"; filename="upload-image.jpg"' . $eol
-                . 'Content-Type: application/octet-stream' . $eol . $eol
-                . $imageData .$eol . $eol . $eol
-                . '------' . $boundary . '--';
-
-        $request->setPayload(
-            $body,
-            CurlHttpRequest::PAYLOAD_TYPE_RAW
-        );
+        $request->addHeader("Content-Type: multipart/form-data; boundary=----" . $boundary);
+        $request->setPayload($body, CurlHttpRequest::PAYLOAD_TYPE_RAW);
 
         $result = $this->sendRequest($request, 'product image upload');
 
