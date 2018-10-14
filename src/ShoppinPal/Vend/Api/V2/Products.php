@@ -85,7 +85,7 @@ class Products extends V2ApiAbstract
         $boundary = uniqid();
         $eol      = "\r\n";
         $body     = '------' . $boundary . $eol
-            . 'Content-Disposition: form-data; name="image"' . $eol
+            . 'Content-Disposition: form-data; name="image"; filename="upload-image.jpg"' . $eol
             . 'Content-Type: application/octet-stream' . $eol . $eol
             . $imageContent .$eol . $eol . $eol
             . '------' . $boundary . '--';
