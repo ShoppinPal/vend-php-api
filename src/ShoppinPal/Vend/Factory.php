@@ -21,9 +21,11 @@ use ShoppinPal\Vend\Api\V2\Outlets as OutletsV2;
 use ShoppinPal\Vend\Api\V2\PaymentTypes as PaymentTypesV2;
 use ShoppinPal\Vend\Api\V2\PriceBooks as PriceBooksV2;
 use ShoppinPal\Vend\Api\V2\Products as ProductsV2;
+use ShoppinPal\Vend\Api\V2\ProductTypes as ProductTypesV2;
 use ShoppinPal\Vend\Api\V2\Registers as RegistersV2;
 use ShoppinPal\Vend\Api\V2\Sales as SalesV2;
 use ShoppinPal\Vend\Api\V2\Suppliers as SuppliersV2;
+use ShoppinPal\Vend\Api\V2\Tags as TagsV2;
 use ShoppinPal\Vend\Api\V2\Taxes as TaxesV2;
 use ShoppinPal\Vend\Api\V2\Versions as VersionsV2;
 use ShoppinPal\Vend\Auth\AuthHelper;
@@ -307,6 +309,27 @@ class Factory
     }
 
     /**
+     * Returns a Product Types API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return ProductTypesV2
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getProductTypesApi($version)
+    {
+        switch ($version) {
+            case self::API_VERSION_2:
+                return new ProductTypesV2($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
      * Returns a Registers API handler.
      *
      * @param string $version The version to use. {@uses self::API_VERSION_*}
@@ -389,6 +412,27 @@ class Factory
 
             case self::API_VERSION_2:
                 return new SuppliersV2($this->getAuthHelper(), $this->getDomainPrefix());
+
+            default:
+                throw new ParameterException('Unknown version: ' . $version);
+        }
+    }
+
+    /**
+     * Returns a Tags API handler.
+     *
+     * @param string $version The version to use. {@uses self::API_VERSION_*}
+     *
+     * @return TagsV2
+     *
+     * @throws ParameterException If the version is invalid.
+     * @throws \YapepBase\Exception\ConfigException If the required configuration params are not set.
+     */
+    public function getTagsApi($version)
+    {
+        switch ($version) {
+            case self::API_VERSION_2:
+                return new TagsV2($this->getAuthHelper(), $this->getDomainPrefix());
 
             default:
                 throw new ParameterException('Unknown version: ' . $version);
