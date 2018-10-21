@@ -12,7 +12,7 @@ class Version extends EntityDoAbstract
 
     public $brands;
 
-    public $producTypes;
+    public $productTypes;
 
     public $suppliers;
 
