@@ -144,7 +144,12 @@ abstract class BaseApiAbstract
             return null;
         }
 
-        $resultData = json_decode($result->getResponseBody(), true);
+        if (500 == $result->getResponseCode()) {
+            // 500 errors return an HTML error page, which can't be decoded as JSON
+            $resultData = null;
+        } else {
+            $resultData = json_decode($result->getResponseBody(), true);
+        }
 
         if (empty($resultData)) {
             $exceptionClass = $this->getCommunicationExceptionClass();
