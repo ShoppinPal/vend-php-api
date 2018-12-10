@@ -4,6 +4,7 @@ namespace ShoppinPal\Vend\Api\V2;
 
 use ShoppinPal\Vend\DataObject\Entity\V2\Brand;
 use ShoppinPal\Vend\DataObject\Entity\V2\CollectionResult;
+use ShoppinPal\Vend\Exception\EntityNotFoundException;
 use YapepBase\Communication\CurlHttpRequest;
 
 /**
@@ -45,5 +46,25 @@ class Brands extends V2ApiAbstract
         return new CollectionResult(
             $result['version']['min'], $result['version']['max'], $brands
         );
+    }
+
+    /**
+     * Returns the brand, that matches this ID.
+     *
+     * @param string $brandId   ID of the brand.
+     *
+     * @return Brand
+     *
+     * @throws EntityNotFoundException   If the brand is not found.
+     */
+    public function get($brandId)
+    {
+        $request = $this->getAuthenticatedRequestForUri('api/2.0/brands/' . urlencode($brandId));
+
+        $request->setMethod(CurlHttpRequest::METHOD_GET);
+
+        $result = $this->sendRequest($request, 'brand get');
+
+        return new Brand($result['data'], Brand::UNKNOWN_PROPERTY_IGNORE, true);
     }
 }

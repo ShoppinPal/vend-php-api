@@ -67,7 +67,6 @@ class Products extends V2ApiAbstract
         $result = $this->sendRequest($request, 'product get');
 
         return new Product($result['data'], Product::UNKNOWN_PROPERTY_IGNORE, true);
-
     }
 
     /**
