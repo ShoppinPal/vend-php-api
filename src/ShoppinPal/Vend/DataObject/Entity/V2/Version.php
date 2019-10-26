@@ -72,7 +72,7 @@ class Version extends EntityDoAbstract
 
         $validEntityTypes = array_diff(array_keys(get_object_vars($this)), $invalidEntityTypes);
 
-        if (!in_array($entityType, $invalidEntityTypes)) {
+        if (!in_array($entityType, $validEntityTypes)) {
             throw new ParameterException('Invalid entity type: ' . $entityType);
         }
 
