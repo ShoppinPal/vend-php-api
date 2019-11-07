@@ -76,6 +76,6 @@ class Version extends EntityDoAbstract
             throw new ParameterException('Invalid entity type: ' . $entityType);
         }
 
-        return $lastRetrievedVersion > max($minimumVersion - 1, (int)$lastRetrievedVersion);
+        return $this->$entityType > max($minimumVersion - 1, (int)$lastRetrievedVersion);
     }
 }
