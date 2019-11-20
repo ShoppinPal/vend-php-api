@@ -20,6 +20,7 @@ class Consignment extends EntityDoAbstract
     const STATUS_STOCK_TAKE_IN_PROGRESS           = 'STOCKTAKE_IN_PROGRESS';
     const STATUS_STOCK_TAKE_IN_PROGRESS_PROCESSED = 'STOCKTAKE_IN_PROGRESS_PROCESSED';
     const STATUS_STOCK_TAKE_COMPLETE              = 'STOCKTAKE_COMPLETE';
+    const STATUS_DISPATCHED                       = 'DISPATCHED';
 
     protected $subEntities = [
         'filters' => [
