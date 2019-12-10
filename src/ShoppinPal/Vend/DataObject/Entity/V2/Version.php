@@ -65,6 +65,11 @@ class Version extends EntityDoAbstract
      */
     public function hasNewerVersion(string $entityType, ?int $lastRetrievedVersion, int $minimumVersion = 10): bool
     {
+        if ('inventory' === $entityType) {
+            // Since the inventory version is broken, always return TRUE for that
+            return true;
+        }
+
         $invalidEntityTypes = [
             'subEntities',
             'ignoredProperties',
