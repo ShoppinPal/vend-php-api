@@ -18,16 +18,18 @@ class Consignments extends V2ApiAbstract
      * @param int $pageSize
      * @param int $beforeVersion
      * @param int $afterVersion
+     * @param bool $includeDeleted If TRUE, deleted items will be returned as well. (required to synchronise deletions)
      *
      * @return CollectionResult
      */
     public function getCollection(
         $pageSize = 50,
         $beforeVersion = null,
-        $afterVersion = null
+        $afterVersion = null,
+        $includeDeleted = false
     )
     {
-        $params = $this->getCollectionGetterParams($pageSize, $beforeVersion, $afterVersion);
+        $params = $this->getCollectionGetterParams($pageSize, $beforeVersion, $afterVersion, $includeDeleted);
 
         $request = $this->getAuthenticatedRequestForUri('api/2.0/consignments', $params);
         $request->setMethod(CurlHttpRequest::METHOD_GET);
@@ -147,6 +149,7 @@ class Consignments extends V2ApiAbstract
      * @param int    $pageSize
      * @param int    $beforeVersion
      * @param int    $afterVersion
+     * @param bool   $includeDeleted
      *
      * @return CollectionResult
      */
@@ -154,10 +157,11 @@ class Consignments extends V2ApiAbstract
         $consignmentId,
         $pageSize = 50,
         $beforeVersion = null,
-        $afterVersion = null
+        $afterVersion = null,
+        $includeDeleted = false
     )
     {
-        $params = $this->getCollectionGetterParams($pageSize, $beforeVersion, $afterVersion);
+        $params = $this->getCollectionGetterParams($pageSize, $beforeVersion, $afterVersion, $includeDeleted);
 
         $request = $this->getAuthenticatedRequestForUri('api/2.0/consignments/' . urlencode($consignmentId) . '/products', $params);
         $request->setMethod(CurlHttpRequest::METHOD_GET);
