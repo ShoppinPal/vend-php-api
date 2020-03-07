@@ -18,16 +18,18 @@ class CustomerGroups extends V2ApiAbstract
      * @param int  $pageSize       The number of items to return per page.
      * @param null $before         The version to succeed the last returned version.
      * @param null $after          The version to precede the first returned version
+     * @param bool $includeDeleted If TRUE, deleted items will be returned as well. (required to synchronise deletions)
      *
      * @return CollectionResult
      */
     public function getCollection(
         $pageSize = 50,
         $before = null,
-        $after = null
+        $after = null,
+        $includeDeleted = false
     )
     {
-        $params = $this->getCollectionGetterParams($pageSize, $before, $after);
+        $params = $this->getCollectionGetterParams($pageSize, $before, $after, $includeDeleted);
 
         $request = $this->getAuthenticatedRequestForUri('api/2.0/customer_groups', $params, true);
         $request->setMethod(CurlHttpRequest::METHOD_GET);
