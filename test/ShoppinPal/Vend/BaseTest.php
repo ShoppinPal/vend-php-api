@@ -4,8 +4,9 @@ namespace ShoppinPal\Vend;
 
 use YapepBase\Application;
 use YapepBase\DependencyInjection\SystemContainer;
+use PHPUnit\Framework\TestCase;
 
-abstract class BaseTest extends \PHPUnit_Framework_TestCase
+abstract class BaseTest extends TestCase
 {
 
     protected $initDiHelper = true;
@@ -16,7 +17,7 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
     protected $diContainer;
 
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
 
@@ -30,7 +31,7 @@ abstract class BaseTest extends \PHPUnit_Framework_TestCase
         require realpath(__DIR__ . '/../../config.php');
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
 

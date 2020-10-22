@@ -23,7 +23,7 @@ class TOAuthCallbackTest extends BaseTest
      */
     protected $oauth;
 
-    protected function setUp()
+    protected function setUp(): void
     {
         parent::setUp();
         $this->trait = new TOAuthCallbackMock();
