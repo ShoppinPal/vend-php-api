@@ -3,8 +3,9 @@ declare(strict_types=1);
 namespace ShoppinPal\Vend\DataObject\Entity\V2;
 
 use YapepBase\Exception\ParameterException;
+use PHPUnit\Framework\TestCase;
 
-class VersionTest extends \PHPUnit_Framework_TestCase
+class VersionTest extends TestCase
 {
     public function testHasNewerVersionWithNotSetValue(): void
     {
